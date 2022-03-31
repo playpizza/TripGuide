@@ -24,4 +24,5 @@ urlpatterns = [
     path('contents/'), include('contents.urls'),
     path('board/'), include('board/'),
     path('add/'), include('add.urls'),
+    path('event/'), include('event.urls'),
 ]

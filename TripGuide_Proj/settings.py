@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'contents',
     'board',
     'add',
+    'event',
+    'count',
 ]
 
 MIDDLEWARE = [
