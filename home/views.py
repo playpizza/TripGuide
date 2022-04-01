@@ -2,5 +2,4 @@ from django.shortcuts import render
 
 
 def home(request):
-    # TODO
-    pass
+    return render(request, 'home.html')
