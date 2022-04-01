@@ -1,3 +1,10 @@
 from django.shortcuts import render
 
-# Create your views here.
+def event_list(request):
+    # TODO
+    pass
+
+
+def event_detail(request, id):
+    # TODO
+    pass
