@@ -14,46 +14,55 @@
 {% block script %} {% endblock %}
 <body>
     <!-- header -->
-    <header>
-        <div>
-            <p><h1>로고</h1></p>
-            <p>
-                <ul>
-                    <li>로그인</li>
-                    <li> | </li>
-                    <li>회원가입</li>
-                </ul>
-            </p>
-            <p>
-                <ul>
-                    <li>콘텐츠</li>
-                    <li>게시판</li>
-                    <li>이벤트</li>
-                </ul>
-            </p>
-        </div>
-    </header>
+    <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 ">
+          <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">로고
+            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+          </a>
+          <div class="col-md-3 text-end">
+            <button type="button" class="btn btn-outline-primary me-2">Login</button>
+            <button type="button" class="btn btn-primary">Sign-up</button>
+          </div>
+        </header>
+        <header class="d-flex justify-content-left border-bottom py-3">
+            <ul class="nav nav-pills">
+              <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">홈</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">컨텐츠</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">게시판</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">이벤트</a></li>
+            </ul>
+        </header>
+    </div>
+
+
+
+
+
 
     <!-- container -->
     <div class="container">
         {% block contents %}
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         {% endblock %}
     </div>
 
     <!-- footer -->
-    <footer>
-        <div>
-            <p>회사이름</p>
-            <ul>
-                <li>전화</li>
-                <li>주소</li>
-                <li>시간</li>
-            </ul>
-        </div>
-        <div>
-            <p>그럴듯한내용</p>
-        </div>
-    </footer>
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+              <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+            <span class="text-muted">© 2021 Company, Inc</span>
+          </div>
+      
+          <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a class="text-muted" href="#">트위터<svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+            <li class="ms-3"><a class="text-muted" href="#">인스타<svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+            <li class="ms-3"><a class="text-muted" href="#">페이스북<svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+          </ul>
+        </footer>
+    </div>
 
     <!-- add -->
     <div>

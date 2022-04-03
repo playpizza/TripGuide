@@ -22,8 +22,8 @@ urlpatterns = [
     path('member/', include('member.urls')),
     path('manager/', include('manager.urls')),
     path('contents/', include('contents.urls')),
-    path('board/', include('board/')),
+    path('board/', include('board.urls')),
     path('add/', include('add.urls')),
     path('event/', include('event.urls')),
-    path('count/', include('count.urls')),
+    # path('count/', include('count.urls')),
 ]
