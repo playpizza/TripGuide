@@ -1,5 +1,5 @@
 function moveContent1(){
-    location.href = "{% url 'Board:list' %}";
+    location.href = contents1Url;
 }
 function moveContent2(){
     location.href = "{% url 'Board:list' %}";
@@ -9,11 +9,11 @@ function moveContent3(){
 }
 
 function moveBoard1(){
-    location.href = "{% url 'Board:detail' 1 %}";
+    location.href = board1Url;
 }
 
 function moveReview1(){
-    location.href = "{% url 'Contents:detail' 1 %}";
+    location.href = review1Url;
 }
 
 
