@@ -17,7 +17,7 @@
 {% endblock %}
 <body>
     <!-- header -->
-    <div class="container">
+    <div class="container" style="width: 1024px;">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
           <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">로고
             <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
@@ -50,14 +50,14 @@
 
 
     <!-- container -->
-    <div class="container">
+    <div class="container" style="width: 1024px;">
         {% block contents %}
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         {% endblock %}
     </div>
 
     <!-- footer -->
-    <div class="container">
+    <div class="container" style="width: 1024px;">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
           <div class="col-md-4 d-flex align-items-center">
             <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
@@ -75,8 +75,8 @@
     </div>
 
     <!-- add -->
-    <div>
-        <p></p>
+    <div class="container position-fixed" style="top: 200px; right: 50px; width: 120px; height: 320px; background-color: aqua;">
+        <p>광고</p>
     </div>
 </body>
 </html>
