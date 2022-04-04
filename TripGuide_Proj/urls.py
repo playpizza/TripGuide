@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
+from member.views import CustomPasswordChangeView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +29,11 @@ urlpatterns = [
     path('add/', include('add.urls')),
     path('event/', include('event.urls')),
     # path('count/', include('count.urls')),
+    path('password/change/', CustomPasswordChangeView.as_view(), name='account_change_password'),
+    path(
+        'email-confirmation-done/',
+        TemplateView.as_view(template_name='email_confirmation_done.html'),
+        name='account_email_confirmation_done',
+    ),
+    path('', include('allauth.urls')), # django-allauth 라이브러리 관련된 path는 "반드시" 가장 아래쪽에 있도록 해주세요.
 ]

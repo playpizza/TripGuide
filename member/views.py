@@ -1,5 +1,10 @@
 from django.shortcuts import render
+from django.urls import reverse
+from allauth.account.views import PasswordChangeView
 
+class CustomPasswordChangeView(PasswordChangeView):
+    def get_success_url(self):
+        return reverse('home')
 
 def member_login(request):
     # TODO
