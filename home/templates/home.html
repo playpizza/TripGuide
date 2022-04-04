@@ -1,10 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block link %}{% endblock %}
 
 {% block title %}TripGuide{% endblock %}
 
-{% block script %}{% endblock %}
+{% block script %}
+<script src="{% static 'bs/js/base.js' %}"></script>
+{% endblock %}
 
 
 
@@ -14,7 +17,7 @@
     <p class="h2 m-3">통합검색</p>
   </div>
   <div class="d-flex align-items-center ms-3">
-    <form class="w-100 me-3 align-items-center flex-fill">
+    <form class="w-100 me-3 align-items-center flex-fill" action="{% url 'Contents:list' %}">
       <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
     </form>
   </div>
@@ -52,6 +55,7 @@
           dy=".3em">Thumbnail</text>
       </svg>
 
+      <!-- TODO data받으면 for문으로 다시 작성 -->
       <div class="card-body">
         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
           This content is a little bit longer.</p>
@@ -102,6 +106,7 @@
           <th scope="col">게시일</th>
         </tr>
       </thead>
+      <!-- TODO data받으면 for문으로 다시 작성 -->
       <tbody>
         <tr onclick="moveBoard1();">
           <th scope="row">1</th>
@@ -147,6 +152,7 @@
           <th scope="col">게시일</th>
         </tr>
       </thead>
+      <!-- TODO data받으면 for문으로 다시 작성 -->
       <tbody>
         <tr onclick="moveReview1();">
           <th scope="row">1</th>
