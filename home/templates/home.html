@@ -1,77 +1,192 @@
 {% extends "base.html" %}
 
-{% block link %} {% endblock %}
+{% block link %}{% endblock %}
 
 {% block title %}TripGuide{% endblock %}
 
-{% block script %} {% endblock %}
+{% block script %}{% endblock %}
 
 
 
 {% block contents %}
 <div class="flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-    <div class="d-flex align-items-center">
-        <p class="h2 m-3">통합검색</p>
-    </div>
-    <div class="d-flex align-items-center ms-3">
-        <form class="w-100 me-3 align-items-center flex-fill">
-            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-        </form>
-    </div>
+  <div class="d-flex align-items-center">
+    <p class="h2 m-3">통합검색</p>
+  </div>
+  <div class="d-flex align-items-center ms-3">
+    <form class="w-100 me-3 align-items-center flex-fill">
+      <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+    </form>
+  </div>
 </div>
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-4 border-bottom">
-    <div class="col">
-      <div class="card shadow-sm">
-        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+  <div class="col">
+    <div class="card shadow-sm">
+      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
+        role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <title>Placeholder</title>
+        <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+          dy=".3em">Thumbnail</text>
+      </svg>
 
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
+      <div class="card-body">
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+          This content is a little bit longer.</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveContent1();">View</button>
+            <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
           </div>
+          <small class="text-muted">평점</small>
         </div>
       </div>
     </div>
-    <div class="col">
-      <div class="card shadow-sm">
-        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+  </div>
+  <div class="col">
+    <div class="card shadow-sm">
+      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
+        role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <title>Placeholder</title>
+        <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+          dy=".3em">Thumbnail</text>
+      </svg>
 
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
+      <div class="card-body">
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+          This content is a little bit longer.</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveContent2();">View</button>
+            <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
           </div>
+          <small class="text-muted">평점</small>
         </div>
       </div>
     </div>
-    <div class="col">
-      <div class="card shadow-sm">
-        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+  </div>
+  <div class="col">
+    <div class="card shadow-sm">
+      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
+        role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <title>Placeholder</title>
+        <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+          dy=".3em">Thumbnail</text>
+      </svg>
 
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
+      <div class="card-body">
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+          This content is a little bit longer.</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveContent3();">View</button>
+            <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
           </div>
+          <small class="text-muted">평점</small>
         </div>
       </div>
     </div>
-    
-    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
 </div>
+
+<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+  <div class="bd-example flex-fill m-3">
+    <p class="h2 mb-3">베스트 게시글</p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">순위</th>
+          <th scope="col">제목</th>
+          <th scope="col">추천수</th>
+          <th scope="col">게시일</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onclick="moveBoard1();">
+          <th scope="row">1</th>
+          <td>qe</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Larry the Bird</td>
+          <td>@twitter</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bd-example flex-fill m-3">
+    <p class="h2 mb-3">베스트 리뷰</p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">순위</th>
+          <th scope="col">제목</th>
+          <th scope="col">추천수</th>
+          <th scope="col">게시일</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onclick="moveReview1();">
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Larry the Bird</td>
+          <td>@twitter</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+<div class="clear"></div>
 
 
 {% endblock %}
