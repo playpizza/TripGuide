@@ -22,6 +22,11 @@
         <button type="button" class="btn btn-primary" onclick="moveJoin()">Sign-up</button>
       </div>
       {# {% endif %} #}
+      {% comment %}
+        로그인 버튼은 {% url 'account_login' %}으로 이동하게 만들어주세요.
+        회원가입 버튼은 {% url 'account_signup' %}으로 이동하게 만들어주세요.
+        로그아웃 버튼은 {% url 'account_logout' %}으로 이동하게 만들어주세요.
+      {% endcomment %}
     </header>
     <header class="d-flex justify-content-left border-bottom py-3">
         <ul class="nav nav-pills">
