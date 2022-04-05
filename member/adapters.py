@@ -1,6 +1,7 @@
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from allauth.account.utils import user_email, user_field
 from allauth.utils import valid_email_or_none
+import datetime
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):
 
@@ -10,7 +11,8 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         email = sociallogin.account.extra_data['email']
         mobile = sociallogin.account.extra_data['mobile']
         gender = sociallogin.account.extra_data['gender']
-        age = sociallogin.account.extra_data['age']
+        birthyear = sociallogin.account.extra_data['birthyear']
+        age = datetime.date.today().year - int(birthyear) + 1
         is_social_login = sociallogin.account.provider.upper()
 
         user = sociallogin.user
@@ -19,7 +21,7 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         user_field(user, "nickname", nickname or "")
         user_field(user, "mobile", mobile or "")
         user_field(user, "gender", gender or "U")
-        user_field(user, "age", age or "")
+        user_field(user, "age", str(age) or "0")
         user_field(user, "is_social_login", is_social_login or "")
         
         return user

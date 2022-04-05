@@ -45,9 +45,8 @@ class User(AbstractUser):
     gender = models.CharField(max_length=2, null=True, verbose_name="성별")
     # M은 남자, W은 여자, U는 확인되지 않음.
     
-    age = models.CharField(max_length=8, null=True, verbose_name="연령대")
-    # 0-9, 10-19, 20-29, 30-39 ... 형식의 문자열로 저장함. 
-    # 가능한 직접 나이를 저장하게 하고 싶었으나.. 네이버에서 이렇게밖에 제공을 안 해줌 ㅠ
+    age = models.CharField(max_length=4, null=True, verbose_name="나이")
+    # 나이는 "문자열" 형태임. int 아님.
     
     is_social_login = models.CharField(max_length=16, null=True, default="default", verbose_name="소셜로그인여부")
     # default이면 일반 사용자, 만약 소셜로그인이면 해당 문자열이 저장됨. e.g. 네이버 소셜로그인이라면 NAVER 저장.
