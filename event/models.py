@@ -3,6 +3,8 @@ from django.db import models
 class EventBoard(models.Model):
     # 제목
     title = models.CharField(max_length=128)
+    # 이미지
+    thumbnail = models.FileField(upload_to="EventFiles/", null=True)
     # 내용
     contents = models.TextField()
     # 조회수
