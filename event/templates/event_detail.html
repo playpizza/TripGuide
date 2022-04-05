@@ -15,8 +15,8 @@
         <div class="form-group">
             <label for="title">제목</label>
             <input type="text" class="form-control" id="title" value="{{event.title}}" readonly />
-            {% if event.mainpotho %}
-            <img src="{{event.mainpotho.url}}" alt="이미지" width="100%">
+            {% if event.mainphoto %}
+            <img src="{{event.mainphoto.url}}" alt="이미지" width="100%">
             {% else %}
             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
             role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">

@@ -3,6 +3,10 @@ from django.db import models
 class AdBoard(models.Model):
     # 제목
     title = models.CharField(max_length=128)
+    # 이미지
+    mainphoto = models.FileField(upload_to="AdFiles/", blank=True, null=True)
+    # 링크
+    link = models.CharField(max_length=128, null=True)
     # 내용
     contents = models.TextField()
     # 조회수
@@ -18,19 +22,3 @@ class AdBoard(models.Model):
     def __str__(self):
         return self.title
 
-
-class AdDocument(models.Model):
-    # 제목
-    title = models.CharField(max_length=200)
-    # 업로드된 파일
-    uploadedFile = models.FileField(upload_to="AdFiles/")
-    # 원본파일 이름
-    originalName = models.CharField(max_length=200, null=False)
-    # 이벤트 글
-    adBoard = models.ForeignKey(AdBoard, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'adfile_board'
-    
-    def __str__(self):
-        return self.title

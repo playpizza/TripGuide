@@ -82,8 +82,12 @@
     </div>
 
     <!-- add -->
-    <div class="container position-fixed" style="top: 200px; right: 50px; width: 120px; height: 320px; background-color: aqua;">
-        <p>광고</p>
+    <div class="container position-fixed" style="top: 200px; right: 50px; width: 120px; height: 320px; ">
+      {% if ad.mainphoto %}
+      <img src="{{ad.mainphoto.url}}" alt="ad" width="100%" onclick="location.href='{{ad.link}}'" style='cursor:pointer'>
+      {% else %}
+      <p>광고</p>
+      {% endif %}
     </div>
 </body>
 </html>
