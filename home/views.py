@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from add.models import AdBoard, AdDocument
+# from add.models import AdBoard, AdDocument
 
 
 def home(request):

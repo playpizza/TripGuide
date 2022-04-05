@@ -17,6 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from member.views import CustomPasswordChangeView
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 
 urlpatterns = [
@@ -37,3 +41,6 @@ urlpatterns = [
     ),
     path('', include('allauth.urls')), # django-allauth 라이브러리 관련된 path는 "반드시" 가장 아래쪽에 있도록 해주세요.
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
