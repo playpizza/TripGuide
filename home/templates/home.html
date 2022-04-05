@@ -12,7 +12,7 @@
   var board1Url = "{% url 'Board:detail' 1 %}";
   var review1Url = "{% url 'Contents:detail' 1 %}";
 </script>
-<script src="{% static 'bs/js/home.js' %}"></script>
+<!-- <script src="{% static 'bs/js/home.js' %}"></script> -->
 {% endblock %}
 
 
@@ -30,6 +30,7 @@
 </div>
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-4 border-bottom">
+  <!-- TODO data받으면 for문으로 다시 작성 -->
   <div class="col">
     <div class="card shadow-sm">
       <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
@@ -39,13 +40,12 @@
           dy=".3em">Thumbnail</text>
       </svg>
 
-      <!-- TODO data받으면 for문으로 다시 작성 -->
       <div class="card-body">
         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
           This content is a little bit longer.</p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveContent1();">View</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href=contents1Url;">View</button>
             <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
           </div>
           <small class="text-muted">평점</small>
@@ -114,7 +114,7 @@
       </thead>
       <!-- TODO data받으면 for문으로 다시 작성 -->
       <tbody>
-        <tr onclick="moveBoard1();">
+        <tr onclick="location.href=board1Url;">
           <th scope="row">1</th>
           <td>qe</td>
           <td>Otto</td>
@@ -160,7 +160,7 @@
       </thead>
       <!-- TODO data받으면 for문으로 다시 작성 -->
       <tbody>
-        <tr onclick="moveReview1();">
+        <tr onclick="location.href=review1Url;">
           <th scope="row">1</th>
           <td>Mark</td>
           <td>Otto</td>

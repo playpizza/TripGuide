@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import EventBoard
 
-# Register your models here.
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('title', )
+    
+admin.site.register(EventBoard, EventAdmin)
