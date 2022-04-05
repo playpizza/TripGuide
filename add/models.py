@@ -12,6 +12,9 @@ class AdBoard(models.Model):
     # 만료일
     exp_date = models.DateField()
 
+    class Meta:
+        db_table = 'ad_board'
+
     def __str__(self):
         return self.title
 
@@ -25,6 +28,9 @@ class AdDocument(models.Model):
     originalName = models.CharField(max_length=200, null=False)
     # 이벤트 글
     adBoard = models.ForeignKey(AdBoard, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'adfile_board'
     
     def __str__(self):
         return self.title

@@ -12,9 +12,12 @@ class EventBoard(models.Model):
     # 만료일
     exp_date = models.DateField()
 
+    class Meta:
+        db_table = 'event_board'
+
     def __str__(self):
         return self.title
-        
+
 
 class EventDocument(models.Model):
     # 제목
@@ -26,5 +29,8 @@ class EventDocument(models.Model):
     # 이벤트 글
     eventBoard = models.ForeignKey(EventBoard, on_delete=models.CASCADE)
     
+    class Meta:
+        db_table = 'eventfile_board'
+
     def __str__(self):
         return self.title
