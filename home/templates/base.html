@@ -29,17 +29,17 @@
           <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">로고
             <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
           </a>
-          {# {% if request.session.user %} #}
-          <!-- <div class="col-md-3 text-end">
+          {% if user.is_authenticated %}
+          <div class="col-md-3 text-end">
             <button type="button" class="btn btn-outline-primary me-2" onclick="moveLogout();">Logout</button>
             <button type="button" class="btn btn-primary" onclick="moveMy();">My</button>
-          </div> -->
-          {# {% else %} #}
+          </div>
+          {% else %}
           <div class="col-md-3 text-end">
             <button type="button" class="btn btn-outline-primary me-2" onclick="moveLogin();">Login</button>
             <button type="button" class="btn btn-primary" onclick="moveJoin()">Sign-up</button>
           </div>
-          {# {% endif %} #}
+          {% endif %}
         </header>
         <header class="d-flex justify-content-left border-bottom py-3">
             <ul class="nav nav-pills">
