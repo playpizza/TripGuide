@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 
 def manage_home(request):
-    # TODO
-    pass
+
+    return render(request, 'm_home.html')
 
 
 def m_user_stats(request):
