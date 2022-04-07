@@ -1,6 +1,8 @@
 from datetime import datetime
 from django.shortcuts import render
 from count.models import CountBoard
+from add.models import AdBoard
+from event.models import EventBoard
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -32,7 +34,11 @@ def manage_home(request):
         context['today_comment'] = today_count.comment_cnt
         context['today_event_veiw'] = today_count.event_view_cnt
         context['today_ad_view'] = today_count.ad_view_cnt
+    except ObjectDoesNotExist:
+        pass
 
+    try:
+        context['on_event'] = EventBoard.objects.filter(exp_date__gte = datetime.today()).count()
     except ObjectDoesNotExist:
         pass
 
