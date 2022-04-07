@@ -1,0 +1,12 @@
+div.view_box{
+    position: relative;
+    height: 120px;
+}
+div.view_box>button{
+    position: absolute;
+    bottom: 0px;
+    right: 15px;
+}
+div.one_box{
+    height: 273px;
+}
