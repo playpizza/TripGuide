@@ -6,5 +6,8 @@ import random
 
 def home(request):
     adAll = AdBoard.objects.all()
-    ad = random.choice(adAll)
+    if adAll:
+        ad = random.choice(adAll)
+    else: 
+        ad = None
     return render(request, 'home.html', {'ad': ad})
