@@ -16,10 +16,10 @@ urlpatterns = [
     path("review/manage/", views.m_review_manage, name="reviewManage"), 
     path("comment/stats/", views.m_comment_stats, name="commentStats"), 
     path("comment/manage/", views.m_comment_manage, name="commentManage"), 
-    path("event/stats/", views.m_event_stats, name="eventStats"), 
+    path("event/manage/", views.m_event_manage, name="eventManage"), 
     path("event/detail/<int:id>/", views.m_event_detail, name="eventDetail"), 
-    path("ad/stats/", views.m_ad_stats, name="adStats"), 
+    path("ad/manage/", views.m_ad_manage, name="adManage"), 
     path("ad/detail/<int:id>/", views.m_ad_detail, name="adDetail"), 
-    path("question/stats/", views.m_question_stats, name="questionStats"), 
+    path("question/manage/", views.m_question_manage, name="questionManage"), 
     path("question/detail/<int:id>/", views.m_question_detail, name="questionDetail"), 
 ]

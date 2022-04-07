@@ -61,7 +61,7 @@ def m_comment_manage(request):
     pass
 
 
-def m_event_stats(request):
+def m_event_manage(request):
     # TODO
     pass
 
@@ -71,7 +71,7 @@ def m_event_detail(request, id):
     pass
 
 
-def m_ad_stats(request):
+def m_ad_manage(request):
     # TODO
     pass
 
@@ -81,7 +81,7 @@ def m_ad_detail(request, id):
     pass
 
 
-def m_question_stats(request):
+def m_question_manage(request):
     # TODO
     pass
 
