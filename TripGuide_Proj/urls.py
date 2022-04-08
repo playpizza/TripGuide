@@ -32,7 +32,7 @@ urlpatterns = [
     path('board/', include('board.urls')),
     path('add/', include('add.urls')),
     path('event/', include('event.urls')),
-    path('reviews/', include('reviews.urls')),
+    path('review/', include('review.urls')),
     # path('count/', include('count.urls')),
     path('password/change/', CustomPasswordChangeView.as_view(), name='account_change_password'),
     path(
