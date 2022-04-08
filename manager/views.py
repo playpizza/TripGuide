@@ -1,9 +1,10 @@
 from datetime import datetime
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 from count.models import CountBoard
 from add.models import AdBoard
 from event.models import EventBoard
-from django.core.exceptions import ObjectDoesNotExist
+from member.models import User
 
 
 def manage_home(request):
@@ -25,6 +26,7 @@ def manage_home(request):
         'on_ad': 0,
         'today_ad_view':0, 
     }
+    # CountBoard
     try:
         today_count = CountBoard.objects.get(reg_date=datetime.today())
         context['today_login'] = today_count.login_cnt
@@ -37,10 +39,24 @@ def manage_home(request):
     except ObjectDoesNotExist:
         pass
 
+    # EventBoard
     try:
         context['on_event'] = EventBoard.objects.filter(exp_date__gte = datetime.today()).count()
     except ObjectDoesNotExist:
         pass
+    
+    # AdBoard
+    try:
+        context['on_ad'] = AdBoard.objects.filter(exp_date__gte = datetime.today()).count()
+    except ObjectDoesNotExist:
+        pass
+
+    # User
+    try:
+        context['user_num'] = User.objects.all().count()
+    except ObjectDoesNotExist:
+        pass
+    
 
 
 
