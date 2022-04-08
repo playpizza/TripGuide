@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from count.models import CountBoard
@@ -64,8 +64,20 @@ def manage_home(request):
 
 
 def m_user_stats(request):
-    # TODO
-    pass
+    context = {
+        'today': datetime.today().strftime("%Y-%m-%d"),
+        'last_7days': (datetime.today() - timedelta(days=7)).strftime("%Y-%m-%d")
+    }
+    all_users = User.objects.all()
+    context['user_num'] = all_users.count()
+    context['today_login'] = CountBoard.objects.get(reg_date=datetime.today()).login_cnt
+    context['ban_users'] = all_users.filter(is_banned=1).count()
+
+    
+    
+
+
+    return render(request, 'm_user_stats.html', context)
 
 
 def m_user_manage(request):
