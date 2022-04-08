@@ -12,7 +12,7 @@ def review_write(request):
 
             review = R_review()  
             review.title = form.cleaned_data['title']
-            review.content = form.cleaned_data['contents']
+            review.content = form.cleaned_data['content']
             # review.writer = member
             review.save() 
            
