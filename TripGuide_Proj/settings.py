@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'add',
     'event',
     'count',
-    'review',
 
     'allauth',
     'allauth.account',
