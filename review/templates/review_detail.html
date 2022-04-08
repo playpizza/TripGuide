@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block contents %}
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" class="form-control" id="title" value="{{r_review.title}}" readonly/>
+            <label for="content">내용</label>
+            <textarea class="form-control" id="content" readonly>{{r_review.content}}</textarea>
+        </div>
+        <div class="mt-3">
+            <a class="btn btn-primary" href='#'>돌아가기</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
