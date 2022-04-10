@@ -14,27 +14,48 @@
 
 
 {% block contents %}
-
+<div class="d-flex">
+    <div class="flex-fill">전체 유저 : {{user_num}}명</div>
+    <div class="flex-fill">제재 유저 : {{ban_users}}명</div>
+    <div class="flex-fill">금일 로그인 : {{today_login}}회</div>
+</div>
 <div class="">
     <form action="." name="chart_select" method="POST">
         {% csrf_token %}
         <div class="row justify-content-center">
             <div class="col-md-2">
                 <select name="view_type" class="form-select">
+                    {% if viewType == 'view_user' %}
                     <option value="view_user" selected>유저수</option>
                     <option value="view_login">로그인수</option>
+                    {% else %}
+                    <option value="view_user">유저수</option>
+                    <option value="view_login" selected>로그인수</option>
+                    {% endif %}
                 </select>
             </div>
             <div class="col-md-6 d-flex">
-                <input type="date" name="start_date" id="" class="form-control" value="{{last_7days}}">
+                <input type="date" name="start_date" id="" class="form-control" value="{{startDate}}">
                 &nbsp&nbsp~&nbsp&nbsp
-                <input type="date" name="end_date" id="" class="form-control" value="{{today}}">
+                <input type="date" name="end_date" id="" class="form-control" value="{{endDate}}">
             </div>
             <div class="col-md-2">
                 <select name="view_range" class="form-select">
+                    {% if viewRange == 'view_day' %}
                     <option value="view_day" selected>일</option>
+                    {% else %}
+                    <option value="view_day">일</option>
+                    {% endif %}
+                    {% if viewRange == 'view_month' %}
+                    <option value="view_month" selected>월</option>
+                    {% else %}
                     <option value="view_month">월</option>
+                    {% endif %}
+                    {% if viewRange == 'view_year' %}
+                    <option value="view_year" selected>년</option>
+                    {% else %}
                     <option value="view_year">년</option>
+                    {% endif %}
                 </select>
             </div>
             <div class="col-md-1 ms-auto">
