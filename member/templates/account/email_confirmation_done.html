@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block link %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/theme.css' %}">
+{% endblock %}
+
+{% block title %}이메일 인증 완료{% endblock title %}
+
+{% block contents %}
+<div class="cp-dialog info account-password-dialog">
+  <p>이메일 인증이 완료되었습니다. 감사합니다.</p>
+  {% if user.is_authenticated %}
+    <a class="cp-button inverted button" href="{% url 'home' %}">홈으로 이동</a>
+  {% else %}
+    <a class="cp-button inverted button" href="{% url 'account_login' %}">로그인 하기</a>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,125 @@
+:root {
+  --border: #e3e1dc;
+  --account-link: #ffcc00;
+}
+
+.account-background {
+  flex-grow: 1;
+}
+.account-background::before {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-image: url("../assets/main-fg.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top;
+  opacity: 0.5;
+}
+
+.account {
+  margin: 200px auto;
+  max-width: 450px;
+  width: 100%;
+}
+
+.account .title {
+  margin: 24px auto;
+  text-align: center;
+}
+
+.account .logo {
+  width: 200px;
+}
+
+.account .form-error {
+  text-align: center;
+}
+
+.account .info .logo,
+.account .info .naver-text{
+  vertical-align: middle;
+}
+
+.account .info {
+  width: max-content;
+  margin: 25px auto;
+}
+
+.account button[type="submit"] {
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+
+.account .info .item {
+  display: inline-block;
+  min-width: 140px;
+  padding: 0 21px;
+}
+
+.account .info .item + .item {
+  border-left: 1px solid var(--border);
+}
+
+.account .info .link {
+  margin-left: 13px;
+  color: var(--account-link);
+}
+
+.account form {
+  display: flex;
+  flex-direction: column;
+}
+
+.account form > :not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.account form .checkbox {
+  padding: 4px;
+  text-align: right;
+}
+
+/* account-password */
+
+.account-password {
+  margin: 100px auto;
+  padding: 68px 150px;
+  max-width: 740px;
+  width: 100%;
+}
+
+.account-password .title {
+  margin: 24px auto;
+  text-align: center;
+}
+
+.account-password .heading {
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.account-password form > :not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.account-password button[type="submit"] {
+  display: block;
+  width: 100%;
+  margin: 20px 0 25px;
+}
+
+.account-password-dialog {
+  margin: 100px auto;
+  text-align: center;
+  width: 100%;
+}
+
+.account-password-dialog .button {
+  margin-top: 5px;
+}

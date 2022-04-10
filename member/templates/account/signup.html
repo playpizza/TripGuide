@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block link %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/theme.css' %}">
+{% endblock %}
+
+{% block title %}회원가입{% endblock title %}
+
+{% block contents %}
+<div class="account-background">
+  <main class="account">
+    <div class="title">
+      <a href="{% url 'home' %}">
+        <img class="logo" src="{% static 'assets/tripguide-logo.png' %}" alt="Logo">
+      </a>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        {{ form.email|add_class:"cp-input"|attr:"placeholder:이메일"|add_error_class:"error" }}
+        {% for error in form.email.errors %}
+          <div class="error-message"> {{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.password1|add_class:"cp-input"|attr:"placeholder:비밀번호"|add_error_class:"error" }}
+        {% for error in form.password1.errors %}
+          <div class="error-message"> {{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.password2|add_class:"cp-input"|attr:"placeholder:비밀번호 확인"|add_error_class:"error" }}
+        {% for error in form.password2.errors %}
+          <div class="error-message"> {{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.name|add_class:"cp-input"|attr:"placeholder:성명"|add_error_class:"error" }}
+        {% for error in form.name.errors %}
+          <div class="error-message"> {{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.nickname|add_class:"cp-input"|attr:"placeholder:닉네임"|add_error_class:"error" }}
+        {% for error in form.nickname.errors %}
+          <div class="error-message"> {{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.address|add_class:"cp-input"|attr:"placeholder:주소"|add_error_class:"error"|attr:"null:True" }}
+        {% for error in form.address.errors %}
+          <div class="error-message"> {{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.mobile|add_class:"cp-input"|attr:"placeholder:폰번호(-까지 입력해주세요)"|add_error_class:"error" }}
+        {% for error in form.mobile.errors %}
+          <div class="error-message"> {{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.gender|add_class:"cp-input"|attr:"placeholder:성별(남자면 M, 여자면 W, 그 이외는 U를 입력해주세요)"|add_error_class:"error"|attr:"blank:True" }}
+        {% for error in form.gender.errors %}
+          <div class="error-message"> {{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.age|add_class:"cp-input"|attr:"placeholder:나이"|add_error_class:"error"|attr:"blank:True" }}
+        {% for error in form.age.errors %}
+          <div class="error-message"> {{ error }}</div>
+        {% endfor %}
+      </div>
+      <button class="cp-button" type="submit">회원가입</button>
+    </form>
+
+    <div class="info">
+      이미 회원이신가요?<a class="link" href="{% url 'account_login' %}">로그인</a>
+    </div>
+  </main>
+</div>
+{% endblock %}

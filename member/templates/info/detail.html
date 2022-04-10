@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block link %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/theme.css' %}">
+{% endblock %}
+
+{% block title %}마이페이지{% endblock title %}
+
+{% block contents %}
+    <div class="account-background">
+        <main class="account">
+        <h2>{{ profile_user.nickname }} 님의 상세 정보</h2>
+<hr>
+
+<section>
+    <div class="mb-3">
+        <label for="nickname">닉네임:</label>
+        <input type="text" class="cp-input" style="margin-bottom:20px" value="{{ profile_user.nickname }}" disabled>
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="name">이름:</label>
+        <input type="text" class="cp-input" style="margin-bottom:20px" value="{{ profile_user.name }}" disabled>
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="mobile">핸드폰번호:</label>
+        <input type="text" class="cp-input" style="margin-bottom:20px" value="{{ profile_user.mobile }}" disabled>
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="address">주소:</label>
+        <input type="text" class="cp-input" style="margin-bottom:20px" value="{{ profile_user.address }}" disabled>
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="gender">성별:</label>
+        <input type="text" class="cp-input" style="margin-bottom:20px" value="{{ profile_user.gender }}" disabled>
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="age">나이:</label>
+        <input type="text" class="cp-input" style="margin-bottom:20px" value="{{ profile_user.age }}" disabled>
+    </div>
+    <button type="button" class="cp-button" style="width:100%;" onclick="profile_update()">수정하기</button>
+
+    <script>
+        function profile_update(){
+            location.href = "{% url 'Member:info_update' profile_user.id %}"
+        }
+    </script>
+
+
+</section>
+</main>
+    </div>
+{% endblock %}

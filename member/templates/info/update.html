@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block link %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/theme.css' %}">
+{% endblock %}
+
+{% block title %}회원 정보 수정{% endblock title %}
+
+{% block contents %}
+    <div class="account-background">
+        <main class="account">
+        <h2>{{ profile_user.nickname }} 님의 정보 수정 페이지</h2>
+<hr>
+
+    <form action="{% url 'Member:info_update' profile_user.id %}" method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="mb-3">
+        <label for="{{ field.name }}">{{ field.label }}:</label>
+        <input type="text" class="cp-input" id="{{ field.name }}" name="{{ field.name }}" value="{{ field.value }}">
+    </div>
+    {% for error in field.errors %}
+          <div class="error-message"> ⚠ {{field.label}}: {{ error }}</div>
+    {% endfor %}
+    {% endfor %}
+
+
+    <button type="button" class="cp-button" style="width:100%;" onclick="change_password()">비밀번호 재설정</button>
+    <button type="submit" class="cp-button" style="width:100%;">수정</button>
+    <button type="button" class="cp-button" onclick="back()">이전으로</button>
+
+    </form>
+
+    <script>
+        function change_password(){
+            location.href = "{% url 'account_change_password' %}"
+        }
+
+        function back(){
+            location.href = "{% url 'Member:info_detail' profile_user.id %}"
+        }
+    </script>
+</main>
+    </div>
+    {% endblock %}

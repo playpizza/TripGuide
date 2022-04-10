@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from .validators import validate_no_special_characters
+from .validators import validate_no_special_characters, validate_mobile, validate_gender, validate_age
 
 class User(AbstractUser):
     # username(우리가 흔히 id라고 부르는 것)은 이미 유저모델에 정의되어있음.
@@ -39,13 +39,14 @@ class User(AbstractUser):
         unique=True, 
         null=True, 
         error_messages={'unique': '이미 사용중인 핸드폰번호입니다.'},
+        validators=[validate_mobile],
         verbose_name="폰번호",
         )
         
-    gender = models.CharField(max_length=2, null=True, verbose_name="성별")
+    gender = models.CharField(max_length=2, null=True, validators=[validate_gender], verbose_name="성별")
     # M은 남자, W은 여자, U는 확인되지 않음.
     
-    age = models.CharField(max_length=4, null=True, verbose_name="나이")
+    age = models.CharField(max_length=4, null=True, validators=[validate_age], verbose_name="나이")
     # 나이는 "문자열" 형태임. int 아님.
     
     is_social_login = models.CharField(max_length=16, null=True, default="default", verbose_name="소셜로그인여부")
