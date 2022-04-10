@@ -146,6 +146,7 @@ def board_delete(request):
     if request.method == "POST":
         id = request.POST['id']
         board = Board.objects.get(id=id)
+        os.remove(board.upload_files.path)
         board.delete()
 
         return render(request, './deleteOK.html')

@@ -14,16 +14,14 @@
     </div>      
     <div class="mb-3 mt-3">
         <label for="content">내용:</label>
-        <div class="border bg-light rounded p-2" >{{ board.content }}</div>
-    </div>
-    {% if board.filename %}
-    <div>
-        <label for="content">파일: {{ board.filename }}</label>
-        <div>
-            <td><a href="{{ board.upload_files.url }}">{{ board.upload_files.url }}</a></td>
+        <div class="border bg-light rounded p-2" >{{ board.content }}<br><br>
+            {% if board.filename %}
+            <a href="{{ board.upload_files.url }}">
+                <img src="{{ board.upload_files.url }}" width="250px" height="300px">
+            </a>
+            {% endif %}
         </div>
     </div>
-    {% endif %}
     <a class="btn btn-outline-dark" href="../../list">목록</a>
     {% if user == board.writer %}
     <a class="btn btn-outline-dark" href="../../update/{{ board.id }}">수정</a>
