@@ -26,8 +26,10 @@
     {% endfor %}
     {% endfor %}
 
-
-    <button type="button" class="cp-button" style="width:100%;" onclick="change_password()">비밀번호 재설정</button>
+    {% for social in profile_user.is_social_login %}
+    {% empty %}
+        <button type="button" class="cp-button" style="width:100%;" onclick="change_password()">비밀번호 재설정</button>
+    {% endfor %}
     <button type="submit" class="cp-button" style="width:100%;">수정</button>
     <button type="button" class="cp-button" onclick="back()">이전으로</button>
 

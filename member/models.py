@@ -49,8 +49,8 @@ class User(AbstractUser):
     age = models.CharField(max_length=4, null=True, validators=[validate_age], verbose_name="나이")
     # 나이는 "문자열" 형태임. int 아님.
     
-    is_social_login = models.CharField(max_length=16, null=True, default="default", verbose_name="소셜로그인여부")
-    # default이면 일반 사용자, 만약 소셜로그인이면 해당 문자열이 저장됨. e.g. 네이버 소셜로그인이라면 NAVER 저장.
+    is_social_login = models.CharField(max_length=16, null=True, default="", verbose_name="소셜로그인여부")
+    # 우리 사이트에서 회원가입한 회원은 빈 문자열, 만약 소셜로그인이면 해당 문자열이 저장됨. e.g. 네이버 소셜로그인이라면 NAVER 저장.
 
     # date_joined는 이미 유저모델에 정의되어있음.
     
