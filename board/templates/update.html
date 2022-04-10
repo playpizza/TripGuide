@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block contents %}
+        <h2>수정</h2>
+        <hr>
+
+        <form action="/board/update/{{ board.id }}/" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name">작성자:</label>
+                <div class="border bg-light rounded p-2" >{{ board.writer }}</div>
+            </div>    
+            <div class="mb-3 mt-3">
+                <label for="title">제목:</label>
+                <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" name="title" value="{{ board.title }}">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="content">내용:</label>
+                <textarea class="form-control" rows="5" id="content" placeholder="내용을 입력하세요" name="content">{{ board.content }}</textarea>
+            </div>
+            <div class="mb-3 mt-3">
+                <input type="file" name="upload_files">
+            </div>
+
+            <button type="submit" class="btn btn-outline-dark">수정완료</button>
+            <button type="button" class="btn btn-outline-dark" onclick="history.back()">이전으로</button>
+            <a class="btn btn-outline-dark" href="../../list">목록</a>
+
+        </form>
+{% endblock %}
