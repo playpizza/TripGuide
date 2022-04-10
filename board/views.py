@@ -1,8 +1,11 @@
+import os
 from django.shortcuts import render
 from django.views.generic import ListView
 from .models import Board
 from django.contrib import messages
 from django.db.models import Q
+from django.http import Http404
+from django.conf import settings
 
 class BoardListView(ListView):
     model = Board
@@ -61,25 +64,92 @@ class BoardListView(ListView):
 
         return context
 
+
+
 def board_write(request):
-    # TODO
-    pass
+    if request.method == 'GET':
+        return render(request, './write.html')
+    elif request.method == 'POST':
+        title = request.POST['title']
+        content = request.POST['content']
+        user_id = request.user
+
+        if request.FILES:
+            upload_files = request.FILES["upload_files"]
+            board = Board(
+                title = title,
+                content = content,
+                writer = user_id,
+                upload_files = upload_files,
+                filename = upload_files.name,
+            )
+        else:
+            board = Board(
+                title = title,
+                content = content,
+                writer = user_id,
+            )
+
+        board.save()
+
+        return render(request, './writeOk.html', {'board': board})
+
 
 
 def board_detail(request, id):
-    # TODO
-    pass
+    try:
+        board = Board.objects.get(id=id)
+
+        board.hits += 1
+        board.save()
+    except Board.DoesNotExist:
+        raise Http404('게시글을 찾을수 없습니다')
+
+    return render(request, './detail.html', {'board': board})
 
 
-def board_update(request, id):
-    # TODO
-    pass
+
+def board_update(request, pk):
+    if request.method == "GET":
+        try:
+            board = Board.objects.get(id=pk)
+        except Board.DoesNotExist:
+            raise Http404('게시글을 찾을수 없습니다')
+
+        return render(request, './update.html', {'board': board})
+    
+    elif request.method == "POST":
+        title = request.POST['title']
+        content = request.POST['content']
+        user_id = request.user
+
+        if request.FILES:
+            board = Board.objects.get(id=pk)
+            upload_files = request.FILES["upload_files"]
+            board.title = title
+            board.content = content
+            board.write = user_id
+            board.upload_files = upload_files
+            board.filename = upload_files.name
+        else:
+            board = Board.objects.get(id=pk)
+            board.title = title
+            board.content = content
+            board.write = user_id
+
+        board.save()
+
+        return render(request, './updateOk.html', {'board': board})
 
 
 def board_delete(request):
-    # TODO
-    pass
+    if request.method == "POST":
+        id = request.POST['id']
+        board = Board.objects.get(id=id)
+        os.remove(board.upload_files.path)
+        board.delete()
 
+        return render(request, './deleteOK.html')
 
 def board_comment(request): # 댓글달기
     # TODO

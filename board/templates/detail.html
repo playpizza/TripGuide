@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<div class="mb-3 mt-3 clearfix">
+    <span class="float-start me-2">제목: {{ board.title }}</span>
+    <span class="float-end ms-4">작성일: {{ board.registered_date|date:"Y-m-d" }}</span>
+    <span class="float-end">조회수: {{ board.hits }}</span>
+</div>
+
+<section>
+    <div class="mb-3">
+        <label for="writer">작성자:</label>
+        <div class="border bg-light rounded p-2" >{{ board.writer }}</div>
+    </div>      
+    <div class="mb-3 mt-3">
+        <label for="content">내용:</label>
+        <div class="border bg-light rounded p-2" >{{ board.content }}<br><br>
+            {% if board.filename %}
+            <a href="{{ board.upload_files.url }}">
+                <img src="{{ board.upload_files.url }}" width="250px" height="300px">
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    <a class="btn btn-outline-dark" href="../../list">목록</a>
+    {% if user == board.writer %}
+    <a class="btn btn-outline-dark" href="../../update/{{ board.id }}">수정</a>
+    <button type="button" class="btn btn-outline-dark" onclick="chkDelete()">삭제</button>
+    {% endif %}
+</section>
+
+<form action="../../delete/" name="delete" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ board.id }}">
+</form>
+
+<script>
+    function chkDelete(){
+        // 삭제 여부 확인
+        var r = confirm("삭제하시겠습니까?");
+        if(r){
+            document.forms['delete'].submit();
+        }
+    }
+</script>
+
+{% endblock %}

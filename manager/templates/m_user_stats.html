@@ -1,40 +1,61 @@
 {% extends "manage_base.html" %}
 {% load static %}
 
-{% block link %} 
+{% block link %}
 <link rel="stylesheet" href="{% static 'bs/css/manager/user_stats.css' %}">
 {% endblock %}
 
 {% block title %} {% endblock %}
 
-{% block script %} 
+{% block script %}
 <script type="text/javascript">
-
 </script>
 {% endblock %}
 
 
-
 {% block contents %}
+<div class="d-flex">
+    <div class="flex-fill">전체 유저 : {{user_num}}명</div>
+    <div class="flex-fill">제재 유저 : {{ban_users}}명</div>
+    <div class="flex-fill">금일 로그인 : {{today_login}}회</div>
+</div>
 <div class="">
-    <form action="." name="chart_select">
+    <form action="." name="chart_select" method="POST">
+        {% csrf_token %}
         <div class="row justify-content-center">
             <div class="col-md-2">
                 <select name="view_type" class="form-select">
+                    {% if viewType == 'view_user' %}
                     <option value="view_user" selected>유저수</option>
                     <option value="view_login">로그인수</option>
+                    {% else %}
+                    <option value="view_user">유저수</option>
+                    <option value="view_login" selected>로그인수</option>
+                    {% endif %}
                 </select>
             </div>
             <div class="col-md-6 d-flex">
-                <input type="date" name="start_date" id="" class="form-control" value="{{last_7days}}">
+                <input type="date" name="start_date" id="" class="form-control" value="{{startDate}}">
                 &nbsp&nbsp~&nbsp&nbsp
-                <input type="date" name="end_date" id="" class="form-control" value="{{today}}">
+                <input type="date" name="end_date" id="" class="form-control" value="{{endDate}}">
             </div>
             <div class="col-md-2">
                 <select name="view_range" class="form-select">
+                    {% if viewRange == 'view_day' %}
                     <option value="view_day" selected>일</option>
+                    {% else %}
+                    <option value="view_day">일</option>
+                    {% endif %}
+                    {% if viewRange == 'view_month' %}
+                    <option value="view_month" selected>월</option>
+                    {% else %}
                     <option value="view_month">월</option>
+                    {% endif %}
+                    {% if viewRange == 'view_year' %}
+                    <option value="view_year" selected>년</option>
+                    {% else %}
                     <option value="view_year">년</option>
+                    {% endif %}
                 </select>
             </div>
             <div class="col-md-1 ms-auto">
@@ -42,15 +63,30 @@
             </div>
         </div>
     </form>
+</div>
+<div>
+    <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="837" height="352"
+        style="display: block; height: 282px; width: 670px;"></canvas>
+</div>
 
 
-    <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="837" height="352" style="display: block; height: 282px; width: 670px;"></canvas>
+<div class="d-none">
+    {% for label in labelData %}
+    <p class="labelData">{{label}}</p>
+    {% endfor %}
+    {% for num in numData %}
+    <p class="numData">{{num}}</p>
+    {% endfor %}
 </div>
 
 {% endblock %}
 
-{% block footerscript %} 
-<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+{% block footerscript %}
+<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+    integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
+    integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous">
+</script>
 <script src="{% static 'bs/js/manager/user_stats.js' %}"></script>
 {% endblock %}

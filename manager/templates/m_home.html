@@ -1,14 +1,14 @@
 {% extends "manage_base.html" %}
 {% load static %}
 
-{% block link %} 
+{% block link %}
 <link rel="stylesheet" href="{% static 'bs/css/manager/m_home.css' %}">
 {% endblock %}
 
 {% block title %}관리자 홈{% endblock %}
 
-{% block script %} 
-<script type="text/javascript"> 
+{% block script %}
+<script type="text/javascript">
     var mUserStatsUrl = "{% url 'Manager:userStats' %}";
     var mUserManageUrl = "{% url 'Manager:userManage' %}";
     var mContentsStatsUrl = "{% url 'Manager:contentsStats' %}";
@@ -35,13 +35,15 @@
             <div class="view_box">
                 <h2>유저 통계</h2>
                 <p>금일 로그인 - {{today_login}} 회</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mUserStatsUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mUserStatsUrl;">더
+                    보기</button>
             </div>
             <hr>
             <div class="view_box">
                 <h2>유저 관리</h2>
                 <p>전체 유저 - {{user_num}} 명</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mUserManageUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mUserManageUrl;">더
+                    보기</button>
             </div>
         </div>
     </div>
@@ -50,13 +52,15 @@
             <div class="view_box">
                 <h2>컨텐츠 통계</h2>
                 <p>금일 컨텐츠 조회 - {{today_contents_view}} 회</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mContentsStatsUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mContentsStatsUrl;">더
+                    보기</button>
             </div>
             <hr>
             <div class="view_box">
                 <h2>컨텐츠 관리</h2>
                 <p>활성화 컨텐츠 - {{activation_contents}} 개</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mContentsManageUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mContentsManageUrl;">더
+                    보기</button>
             </div>
         </div>
     </div>
@@ -65,13 +69,15 @@
             <div class="view_box">
                 <h2>게시판 통계</h2>
                 <p>금일 게시글 - {{today_board}} 개</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mBoardStatsUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mBoardStatsUrl;">더
+                    보기</button>
             </div>
             <hr>
             <div class="view_box">
                 <h2>게시판 관리</h2>
                 <p>신고된 게시글 - {{report_board}} 개</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mBoardManageUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mBoardManageUrl;">더
+                    보기</button>
             </div>
         </div>
     </div>
@@ -80,13 +86,15 @@
             <div class="view_box">
                 <h2>리뷰 통계</h2>
                 <p>금일 리뷰 - {{today_review}} 개</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mReviewStatusUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mReviewStatusUrl;">더
+                    보기</button>
             </div>
             <hr>
             <div class="view_box">
                 <h2>리뷰 관리</h2>
                 <p>신고된 리뷰 - {{report_review}} 개</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mReviewManageUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mReviewManageUrl;">더
+                    보기</button>
             </div>
         </div>
     </div>
@@ -95,13 +103,15 @@
             <div class="view_box">
                 <h2>댓글 통계</h2>
                 <p>금일 댓글 - {{today_comment}} 개</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mCommentStatusUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mCommentStatusUrl;">더
+                    보기</button>
             </div>
             <hr>
             <div class="view_box">
                 <h2>댓글 관리</h2>
                 <p>신고된 댓글 - {{report_comment}} 개</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mCommentManageUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mCommentManageUrl;">더
+                    보기</button>
             </div>
         </div>
     </div>
@@ -111,7 +121,8 @@
                 <h2>이벤트 관리</h2>
                 <p>진행중 이벤트 - {{on_event}} 개</p>
                 <p>금일 조회수 - {{today_event_veiw}} 회</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mEventManageUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mEventManageUrl;">더
+                    보기</button>
             </div>
         </div>
     </div>
@@ -121,7 +132,8 @@
                 <h2>문의사항 관리</h2>
                 <p>금일 문의사항 - {{today_question}} 개</p>
                 <p>미처리 문의사항 - {{undo_question}} 회</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mAdManageUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mAdManageUrl;">더
+                    보기</button>
             </div>
         </div>
     </div>
@@ -131,7 +143,8 @@
                 <h2>광고 관리</h2>
                 <p>진행중 광고 - {{on_ad}} 개</p>
                 <p>금일 조회수 - {{today_ad_view}} 회</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mQuestionManageUrl;">더 보기</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mQuestionManageUrl;">더
+                    보기</button>
             </div>
         </div>
     </div>
