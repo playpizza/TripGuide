@@ -1,9 +1,10 @@
 from django.db import models
-
+from django.utils.timezone import now
+# auto_now_add=True
 
 class CountBoard(models.Model):
     # 기록일
-    reg_date = models.DateField(auto_now_add=True, unique=True)
+    reg_date = models.DateField(default=now, unique=True)
     # 로그인 횟수
     login_cnt = models.IntegerField(default=0)
     # 회원가입 횟수
