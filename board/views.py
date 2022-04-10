@@ -3,6 +3,7 @@ from django.views.generic import ListView
 from .models import Board
 from django.contrib import messages
 from django.db.models import Q
+from django.http import Http404
 
 class BoardListView(ListView):
     model = Board
@@ -61,14 +62,41 @@ class BoardListView(ListView):
 
         return context
 
+
+
 def board_write(request):
-    # TODO
-    pass
+    if request.method == 'GET':
+        return render(request, './write.html')
+    elif request.method == 'POST':
+        title = request.POST['title']
+        content = request.POST['content']
+        user_id = request.user
+        upload_files = request.FILES["upload_files"]
+
+        b = Board(
+            title = title,
+            content = content,
+            writer = user_id,
+            upload_files = upload_files,
+            filename = upload_files.name,
+        )
+        b.save()
+
+        return render(request, './writeOk.html', {"pk": b.pk})
+
 
 
 def board_detail(request, id):
-    # TODO
-    pass
+    try:
+        board = Board.objects.get(id=id)
+
+        board.hits += 1
+        board.save()
+    except Board.DoesNotExist:
+        raise Http404('게시글을 찾을수 없습니다')
+
+    return render(request, './detail.html', {'board': board})
+
 
 
 def board_update(request, id):

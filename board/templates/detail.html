@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<h2>조회 - {{ board.title }}</h2>
+<hr>
+<div class="mb-3 mt-3 clearfix">
+    <span class="float-start me-2">제목: {{ board.title }}</span>
+    <span class="float-end ms-4">작성일: {{ board.registered_date|date:"Y-m-d" }}</span>
+    <span class="float-end">조회수: {{ board.hits }}</span>
+</div>
+
+<section>
+    <div class="mb-3">
+        <label for="writer">작성자:</label>
+        <div class="border bg-light rounded p-2" >{{ board.writer }}</div>
+    </div>    
+    <div class="mb-3 mt-3">
+        <label for="title">제목:</label>
+        <div class="border bg-light rounded p-2" >{{ board.title }}</div>
+    </div>    
+    <div class="mb-3 mt-3">
+        <label for="content">내용:</label>
+        <div class="border bg-light rounded p-2" >{{ board.content }}</div>
+    </div>
+    <div>
+        <label for="content">파일: {{ board.filename }}</label>
+        <div>
+            <td><a href="{{ board.upload_files.url }}">{{ board.upload_files.url }}</a></td>
+        </div>
+    </div>
+
+    <a class="btn btn-outline-dark" href="../../list">목록</a>
+
+</section>
+{% endblock %}

@@ -38,7 +38,7 @@
             <tbody>
                 {% if board_list %}
                 {% for board in board_list %}
-                <tr class="text-center" style="cursor:pointer;" onclick="location.href='/board/{{ board.id }}/'">
+                <tr class="text-center" style="cursor:pointer;" onclick="location.href='/board/detail/{{ board.id }}/'">
                     <td style="font-weight: 500;">{{ board.id }}</td>
                     <td class="text-left" style="width:50%; font-weight: 600;"><a id="board-{{ board.id }}">{{ board.title|truncatechars:30 }}</a></td>
                     <td style="font-weight: 500;">{{ board.writer }}</td>
