@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 app_name = "Board"
 
@@ -12,3 +14,8 @@ urlpatterns = [
     path("comment/", views.board_comment, name="comment"),
     path("per_page/", views.board_per_page, name="per_page"), 
 ]
+
+urlpatterns += static(
+    settings.MEDIA_URL, 
+    document_root = settings.MEDIA_ROOT
+)
