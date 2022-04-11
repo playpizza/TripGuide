@@ -105,9 +105,9 @@ def m_user_stats(request):
     # 차트 데이터
     context['labelData'] = []
     context['numData'] = []
+    checkDate = datetime.strptime(startDate,'%Y-%m-%d')
+    lastDate = datetime.strptime(endDate,'%Y-%m-%d')
     if viewType == 'view_user':
-        checkDate = datetime.strptime(startDate,'%Y-%m-%d')
-        lastDate = datetime.strptime(endDate,'%Y-%m-%d')
         while checkDate <= lastDate:
             if viewRange == 'view_day':
                 try:
@@ -137,6 +137,51 @@ def m_user_stats(request):
                     context['labelData'].append(checkDate.strftime("%Y"))
                 except ObjectDoesNotExist:
                     pass
+                checkDate += relativedelta(years=1)
+    elif viewType == 'view_login':
+        while checkDate <= lastDate:
+            checkExist = True
+            if viewRange == 'view_day':
+                try:
+                    context['numData'].append(CountBoard.objects.get(
+                        reg_date=checkDate
+                        ).login_cnt)
+                except ObjectDoesNotExist:
+                    context['numData'].append(0)
+                context['labelData'].append(checkDate.strftime("%Y-%m-%d"))
+                checkDate += timedelta(days=1)
+            elif viewRange == 'view_month':
+                try:
+                    temp = CountBoard.objects.filter(
+                        Q(reg_date__year=checkDate.strftime("%Y")) &
+                        Q(reg_date__month=checkDate.strftime("%m"))
+                        )
+                    tempSum = 0
+                    for i in temp:
+                        tempSum += i.login_cnt
+                    context['numData'].append(tempSum)
+                    checkExist = False
+                except ObjectDoesNotExist:
+                    pass
+                context['labelData'].append(checkDate.strftime("%Y-%m"))
+                if checkExist:
+                    context['numData'].append(0)
+                checkDate += relativedelta(months=1)
+            elif viewRange == 'view_year':
+                try:
+                    temp = CountBoard.objects.filter(
+                        Q(reg_date__year=checkDate.strftime("%Y"))
+                        )
+                    tempSum = 0
+                    for i in temp:
+                        tempSum += i.login_cnt
+                    context['numData'].append(tempSum)
+                    checkExist = False
+                except ObjectDoesNotExist:
+                    pass
+                context['labelData'].append(checkDate.strftime("%Y"))
+                if checkExist:
+                    context['numData'].append(0)
                 checkDate += relativedelta(years=1)
 
     return render(request, 'm_user_stats.html', context)
