@@ -29,6 +29,7 @@ class User(AbstractUser):
     address = models.CharField(
         max_length=256, 
         null=True,
+        blank=True,
         validators=[validate_no_special_characters], 
         verbose_name="주소"
         )
@@ -43,13 +44,13 @@ class User(AbstractUser):
         verbose_name="폰번호",
         )
         
-    gender = models.CharField(max_length=2, null=True, validators=[validate_gender], verbose_name="성별")
+    gender = models.CharField(max_length=2, null=True, blank=True, validators=[validate_gender], verbose_name="성별")
     # M은 남자, W은 여자, U는 확인되지 않음.
     
-    age = models.CharField(max_length=4, null=True, validators=[validate_age], verbose_name="나이")
+    age = models.CharField(max_length=4, null=True, blank=True, validators=[validate_age], verbose_name="나이")
     # 나이는 "문자열" 형태임. int 아님.
     
-    is_social_login = models.CharField(max_length=16, null=True, default="", verbose_name="소셜로그인여부")
+    is_social_login = models.CharField(max_length=16, null=True, blank=True, default="", verbose_name="소셜로그인여부")
     # 우리 사이트에서 회원가입한 회원은 빈 문자열, 만약 소셜로그인이면 해당 문자열이 저장됨. e.g. 네이버 소셜로그인이라면 NAVER 저장.
 
     # date_joined는 이미 유저모델에 정의되어있음.

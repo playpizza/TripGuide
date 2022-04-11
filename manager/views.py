@@ -8,7 +8,7 @@ from event.models import EventBoard
 from member.models import User
 from board.models import Board, Comment
 from django.db.models import Q
-
+from django.utils import timezone
 
 def manage_home(request):
     context = {
@@ -57,6 +57,7 @@ def manage_home(request):
     # User
     try:
         context['user_num'] = User.objects.all().count()
+        context['today_login'] = User.objects.filter(last_login__startswith=timezone.now().date()).count()
     except ObjectDoesNotExist:
         pass
 
