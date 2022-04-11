@@ -202,7 +202,6 @@ def m_user_manage(request):
     if request.method == 'POST':
         context['onlyReport'] = request.POST.get('onlyReport', 'off')
         context['searchWord'] = request.POST['searchWord'].strip()
-        # searchWord = context['searchWord'].strip().split()
         searchWord = context['searchWord']
         if context['onlyReport'] == 'off':
             try:
