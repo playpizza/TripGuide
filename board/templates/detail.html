@@ -16,7 +16,7 @@
 <section>
     <div class="mb-3">
         <label for="writer">작성자:</label>
-        <div class="border bg-light rounded p-2" >{{ board.writer }}</div>
+        <div class="border bg-light rounded p-2" >{{ board.nickname }}</div>
     </div>      
     <div class="mb-3 mt-3">
         <label for="content">내용:</label>
@@ -29,43 +29,59 @@
         </div>
     </div>
     <div class="mb-3">
+        {% for comment in comments %}
+        {% if comment.post_id == board.id %}
+        <tr class="text-center">
+            <div class="comment">
+                <div class="writer">작성자: {{ comment.nickname }}</div>
+                <div class="content">내용: {{ comment.content }}</div>
+                <br>
+                <button type="button" class="btn btn-outline-dark float-end" onclick="Comment_chkDelete()">삭제</button>
+            </div>
+        </tr>
+        {% endif %}
+        {% empty %}
+            <p>No comments here yet</p>
+        {% endfor %}
+        {% if user.is_authenticated %}
         <form action="/board/comment/write/" method="POST">
             {% csrf_token %}
             <input type="text" name="content" placeholder="댓글을 입력하세요">
             <input type="submit" value="Write" />
             <input type="hidden" name="board_id" value="{{ board.id }}">
         </form>
-        {% for comment in comments %}
-        <div class="comment">
-            <div class="writer">작성자: {{ comment.writer }}</div>
-            <div class="content">내용: {{ comment.content }}</div>
-            <br>
-        </div>
-        {% empty %}
-            <p>No comments here yet</p>
-        {% endfor %}
+        {% endif %}
     </div>
 
     <a class="btn btn-outline-dark" href="../../list">목록</a>
     {% if user == board.writer %}
     <a class="btn btn-outline-dark" href="../../update/{{ board.id }}">수정</a>
-    <button type="button" class="btn btn-outline-dark" onclick="chkDelete()">삭제</button>
+    <button type="button" class="btn btn-outline-dark" onclick="Board_chkDelete()">삭제</button>
     {% endif %}
 </section>
 
-<form action="../../delete/" name="delete" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="id" value="{{ board.id }}">
-</form>
-
 <script>
-    function chkDelete(){
-        // 삭제 여부 확인
+    function Board_chkDelete(){
         var r = confirm("삭제하시겠습니까?");
         if(r){
-            document.forms['delete'].submit();
+            document.forms['board_delete'].submit();
+        }
+    }
+    function Comment_chkDelete(){
+        var r = confirm("삭제하시겠습니까?");
+        if(r){
+            document.forms['comment_delete'].submit();
         }
     }
 </script>
+
+<form action="../../delete/" name="board_delete" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="b_id" value="{{ board.id }}">
+</form>
+<form action="../../comment/delete/" name="comment_delete" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="c_id" value="{{ comment.id }}">
+</form>
 
 {% endblock %}

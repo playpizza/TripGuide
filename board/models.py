@@ -4,6 +4,7 @@ from django.db import models
 
 class Board(models.Model):
     writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, verbose_name='작성자')
+    nickname = models.CharField(max_length=20, null=True, verbose_name='닉네임')
     title = models.CharField(max_length=128, verbose_name='제목')
     content = models.TextField(verbose_name='내용')
     hits = models.PositiveIntegerField(verbose_name='조회수', default=0)
@@ -21,6 +22,7 @@ class Board(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Board, on_delete=models.CASCADE, verbose_name='게시글')
     writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, verbose_name='댓글작성자')
+    nickname = models.CharField(max_length=20, null=True, verbose_name='닉네임')
     content = models.TextField(verbose_name='댓글내용')
     created = models.DateTimeField(auto_now_add=True, verbose_name='작성일')
     deleted = models.BooleanField(default=False, verbose_name='삭제여부')

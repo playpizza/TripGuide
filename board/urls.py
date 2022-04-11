@@ -12,7 +12,7 @@ urlpatterns = [
     path("update/<int:id>/", views.board_update, name="update"),
     path("delete/", views.board_delete, name="delete"),
     path('comment/write/', views.comment_write, name='comment_write'),
-    path('<int:id>/comment/delete/', views.board_comment_delete, name='comment_delete'),
+    path('comment/delete/', views.board_comment_delete, name='comment_delete'),
     path('like_count/', views.like_count, name="like_count"),
 ]
 

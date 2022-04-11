@@ -76,6 +76,7 @@ def board_write(request):
         title = request.POST['title']
         content = request.POST['content']
         user_id = request.user
+        nickname = request.user.nickname
 
         if request.FILES:
             upload_files = request.FILES["upload_files"]
@@ -83,6 +84,7 @@ def board_write(request):
                 title = title,
                 content = content,
                 writer = user_id,
+                nickname = nickname,
                 upload_files = upload_files,
                 filename = upload_files.name,
             )
@@ -91,6 +93,7 @@ def board_write(request):
                 title = title,
                 content = content,
                 writer = user_id,
+                nickname = nickname,
             )
 
         board.save()
@@ -102,7 +105,7 @@ def board_write(request):
 def board_detail(request, id):
     try:
         board = Board.objects.get(id=id)
-        comment_list = Comment.objects.order_by('-id') 
+        comment_list = Comment.objects.order_by('-id')
 
         board.hits += 1
         board.save()
@@ -153,12 +156,13 @@ def board_update(request, id):
 
 def board_delete(request):
     if request.method == "POST":
-        id = request.POST['id']
+        id = request.POST['b_id']
         board = Board.objects.get(id=id)
-        os.remove(board.upload_files.path)
+        if board.upload_files:
+            os.remove(board.upload_files.path)
         board.delete()
 
-        return render(request, './deleteOK.html')
+        return render(request, './b_deleteOK.html')
 
 def comment_write(request):
     if request.method == 'POST':
@@ -166,12 +170,14 @@ def comment_write(request):
         id = request.POST['board_id']
         post = get_object_or_404(Board, id=id)
         user_id = request.user
+        nickname = request.user.nickname
         board = Board.objects.get(id=id)
 
         comment = Comment(
                 post = post,
                 content = content,
                 writer = user_id,
+                nickname = nickname,
             )
         
         comment.save()
@@ -179,8 +185,13 @@ def comment_write(request):
         return render(request, './commentOk.html', {'board': board})
 
 
-def board_comment_delete(request, id):
-    pass
+def board_comment_delete(request):
+    if request.method == "POST":
+        id = request.POST['c_id']
+        comment = Comment.objects.get(id=id)
+        comment.delete()
+
+        return render(request, './c_deleteOK.html')
 
 
 
