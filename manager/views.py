@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import os
 from dateutil.relativedelta import relativedelta
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
@@ -7,9 +8,10 @@ from add.models import AdBoard
 from event.models import EventBoard
 from member.models import User
 from board.models import Board, Comment
+from reviews.models import *
 from django.db.models import Q
+from django.utils import timezone
 from django.core.paginator import Paginator
-
 
 def manage_home(request):
     context = {
@@ -58,6 +60,7 @@ def manage_home(request):
     # User
     try:
         context['user_num'] = User.objects.all().count()
+        context['today_login'] = User.objects.filter(last_login__startswith=timezone.now().date()).count()
     except ObjectDoesNotExist:
         pass
 
@@ -201,7 +204,6 @@ def m_user_manage(request):
     if request.method == 'POST':
         context['onlyReport'] = request.POST.get('onlyReport', 'off')
         context['searchWord'] = request.POST['searchWord'].strip()
-        # searchWord = context['searchWord'].strip().split()
         searchWord = context['searchWord']
         if context['onlyReport'] == 'off':
             try:
@@ -377,13 +379,315 @@ def m_board_stats(request):
 
 
 def m_board_manage(request):
-    # TODO
-    pass
+    context = {
+        'onlyReport': 'off',
+        'searchWord': '',
+        'boardData': [],
+        'defaultTarget': 0,
+    }
+    if request.method == 'POST':
+        # 삭제
+        if request.POST['targetId'] != 0:
+            try:
+                targetBoard = Board.objects.get(id=request.POST['targetId'])
+                os.remove(targetBoard.upload_files.path)
+                targetBoard.delete()
+            except ObjectDoesNotExist:
+                pass
+        # 검색
+        context['onlyReport'] = request.POST.get('onlyReport', 'off')
+        context['searchWord'] = request.POST['searchWord'].strip()
+        searchWord = context['searchWord']
+        if context['onlyReport'] == 'off':
+            try:
+                all_boards = Board.objects.filter(
+                    Q(writer__name__icontains=searchWord) |
+                    Q(title__icontains=searchWord)
+                ).order_by('-registered_date')
+            except ObjectDoesNotExist:
+                all_boards = []
+        else:
+            pass
+            # try:
+            #     all_users = Board.objects.filter(
+            #         Q(is_banned=1)
+            #     ) & User.objects.filter(
+            #         Q(username__icontains=searchWord) |
+            #         Q(name__icontains=searchWord) |
+            #         Q(nickname__icontains=searchWord)
+            #     ).order_by('-registered_date')
+            # except ObjectDoesNotExist:
+            #     all_users = []
+    else:
+        try:
+            all_boards = Board.objects.all().order_by('-registered_date')
+        except ObjectDoesNotExist:
+            all_boards = []
+    
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_boards, 20)
+    boards = paginator.get_page(page)
+
+    context['boardData'] = boards
+
+
+    return render(request, 'm_board_manage.html', context)
 
 
 def m_review_stats(request):
-    # TODO
-    pass
+    context = {
+        'labelData': [],
+        'numData': [],
+        # 통계값
+        'all_review': 0,
+        'today_review': 0,
+        # 검색값
+        'viewType': 'view_all',
+        'startDate': (datetime.today() - timedelta(days=6)).strftime("%Y-%m-%d"),
+        'endDate': datetime.today().strftime("%Y-%m-%d"),
+        'viewRange': 'view_day',
+    }
+    # 기본통계
+    try:
+        context['all_review'] = R_review.objects.count() + H_review.objects.count() + F_review.objects.count() + T_review.objects.count()
+    except ObjectDoesNotExist:
+        pass
+    try:
+        context['today_review'] = CountBoard.objects.get(reg_date=datetime.today()).review_cnt
+    except ObjectDoesNotExist:
+        temp = CountBoard()
+        temp.save()
+
+    # 차트 조건
+    if request.method == 'POST':
+        context['viewType'] = request.POST['view_type']
+        context['startDate'] = request.POST['start_date']
+        context['endDate'] = request.POST['end_date']
+        context['viewRange'] = request.POST['view_range']
+    viewType = context['viewType']
+    startDate = context['startDate']
+    endDate = context['endDate']
+    viewRange = context['viewRange']
+
+    # 차트 데이터
+    context['labelData'] = []
+    context['numData'] = []
+    checkDate = datetime.strptime(startDate,'%Y-%m-%d')
+    lastDate = datetime.strptime(endDate,'%Y-%m-%d')
+    if viewType == 'view_all':
+        while checkDate <= lastDate:
+            if viewRange == 'view_day':
+                try:
+                    context['numData'].append(
+                        R_review.objects.filter(
+                        reg_date__lt=(checkDate + timedelta(days=1))
+                        ).count() + 
+                        H_review.objects.filter(
+                        reg_date__lt=(checkDate + timedelta(days=1))
+                        ).count() + 
+                        F_review.objects.filter(
+                        reg_date__lt=(checkDate + timedelta(days=1))
+                        ).count() + 
+                        T_review.objects.filter(
+                        reg_date__lt=(checkDate + timedelta(days=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m-%d"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += timedelta(days=1)
+            elif viewRange == 'view_month':
+                checkDate = datetime.strptime(checkDate.strftime("%Y-%m"),'%Y-%m')
+                try:
+                    context['numData'].append(
+                        R_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(months=1))
+                        ).count() + 
+                        H_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(months=1))
+                        ).count() + 
+                        F_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(months=1))
+                        ).count() + 
+                        T_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(months=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(months=1)
+            elif viewRange == 'view_year':
+                checkDate = datetime.strptime(checkDate.strftime("%Y"),'%Y')
+                try:
+                    context['numData'].append(
+                        R_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(years=1))
+                        ).count() + 
+                        H_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(years=1))
+                        ).count() + 
+                        F_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(years=1))
+                        ).count() + 
+                        T_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(years=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(years=1)
+    elif viewType == 'view_trip':
+        while checkDate <= lastDate:
+            if viewRange == 'view_day':
+                try:
+                    context['numData'].append(
+                        T_review.objects.filter(
+                        reg_date__lt=(checkDate + timedelta(days=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m-%d"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += timedelta(days=1)
+            elif viewRange == 'view_month':
+                checkDate = datetime.strptime(checkDate.strftime("%Y-%m"),'%Y-%m')
+                try:
+                    context['numData'].append(
+                        T_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(months=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(months=1)
+            elif viewRange == 'view_year':
+                checkDate = datetime.strptime(checkDate.strftime("%Y"),'%Y')
+                try:
+                    context['numData'].append(
+                        T_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(years=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(years=1)
+    elif viewType == 'view_rest':
+        while checkDate <= lastDate:
+            if viewRange == 'view_day':
+                try:
+                    context['numData'].append(
+                        H_review.objects.filter(
+                        reg_date__lt=(checkDate + timedelta(days=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m-%d"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += timedelta(days=1)
+            elif viewRange == 'view_month':
+                checkDate = datetime.strptime(checkDate.strftime("%Y-%m"),'%Y-%m')
+                try:
+                    context['numData'].append(
+                        H_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(months=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(months=1)
+            elif viewRange == 'view_year':
+                checkDate = datetime.strptime(checkDate.strftime("%Y"),'%Y')
+                try:
+                    context['numData'].append(
+                        H_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(years=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(years=1)
+    elif viewType == 'view_food':
+        while checkDate <= lastDate:
+            if viewRange == 'view_day':
+                try:
+                    context['numData'].append(
+                        R_review.objects.filter(
+                        reg_date__lt=(checkDate + timedelta(days=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m-%d"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += timedelta(days=1)
+            elif viewRange == 'view_month':
+                checkDate = datetime.strptime(checkDate.strftime("%Y-%m"),'%Y-%m')
+                try:
+                    context['numData'].append(
+                        R_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(months=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(months=1)
+            elif viewRange == 'view_year':
+                checkDate = datetime.strptime(checkDate.strftime("%Y"),'%Y')
+                try:
+                    context['numData'].append(
+                        R_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(years=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(years=1)
+    elif viewType == 'view_fest':
+        while checkDate <= lastDate:
+            if viewRange == 'view_day':
+                try:
+                    context['numData'].append(
+                        F_review.objects.filter(
+                        reg_date__lt=(checkDate + timedelta(days=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m-%d"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += timedelta(days=1)
+            elif viewRange == 'view_month':
+                checkDate = datetime.strptime(checkDate.strftime("%Y-%m"),'%Y-%m')
+                try:
+                    context['numData'].append(
+                        F_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(months=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y-%m"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(months=1)
+            elif viewRange == 'view_year':
+                checkDate = datetime.strptime(checkDate.strftime("%Y"),'%Y')
+                try:
+                    context['numData'].append(
+                        F_review.objects.filter(
+                        reg_date__lt=(checkDate + relativedelta(years=1))
+                        ).count()
+                        )
+                    context['labelData'].append(checkDate.strftime("%Y"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(years=1)
+
+    return render(request, 'm_review_stats.html', context)
 
 
 def m_review_manage(request):
@@ -392,8 +696,74 @@ def m_review_manage(request):
 
 
 def m_comment_stats(request):
-    # TODO
-    pass
+    context = {
+        'labelData': [],
+        'numData': [],
+        # 통계값
+        'all_comment': 0,
+        'today_comment': 0,
+        # 검색값
+        'startDate': (datetime.today() - timedelta(days=6)).strftime("%Y-%m-%d"),
+        'endDate': datetime.today().strftime("%Y-%m-%d"),
+        'viewRange': 'view_day',
+    }
+    # 기본통계
+    try:
+        context['all_comment'] = Comment.objects.count()
+    except ObjectDoesNotExist:
+        pass
+    try:
+        context['today_comment'] = CountBoard.objects.get(reg_date=datetime.today()).comment_cnt
+    except ObjectDoesNotExist:
+        temp = CountBoard()
+        temp.save()
+
+    # 차트 조건
+    if request.method == 'POST':
+        context['startDate'] = request.POST['start_date']
+        context['endDate'] = request.POST['end_date']
+        context['viewRange'] = request.POST['view_range']
+    startDate = context['startDate']
+    endDate = context['endDate']
+    viewRange = context['viewRange']
+
+    # 차트 데이터
+    context['labelData'] = []
+    context['numData'] = []
+    checkDate = datetime.strptime(startDate,'%Y-%m-%d')
+    lastDate = datetime.strptime(endDate,'%Y-%m-%d')
+    while checkDate <= lastDate:
+        if viewRange == 'view_day':
+            try:
+                context['numData'].append(Comment.objects.filter(
+                    created__lt=(checkDate + timedelta(days=1))
+                    ).count())
+                context['labelData'].append(checkDate.strftime("%Y-%m-%d"))
+            except ObjectDoesNotExist:
+                pass
+            checkDate += timedelta(days=1)
+        elif viewRange == 'view_month':
+            checkDate = datetime.strptime(checkDate.strftime("%Y-%m"),'%Y-%m')
+            try:
+                context['numData'].append(Comment.objects.filter(
+                    created__lt=(checkDate + relativedelta(months=1))
+                    ).count())
+                context['labelData'].append(checkDate.strftime("%Y-%m"))
+            except ObjectDoesNotExist:
+                pass
+            checkDate += relativedelta(months=1)
+        elif viewRange == 'view_year':
+            checkDate = datetime.strptime(checkDate.strftime("%Y"),'%Y')
+            try:
+                context['numData'].append(Comment.objects.filter(
+                    created__lt=(checkDate + relativedelta(years=1))
+                    ).count())
+                context['labelData'].append(checkDate.strftime("%Y"))
+            except ObjectDoesNotExist:
+                pass
+            checkDate += relativedelta(years=1)
+
+    return render(request, 'm_comment_stats.html', context)
 
 
 def m_comment_manage(request):
