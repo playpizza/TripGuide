@@ -8,3 +8,6 @@ django-allauth를 사용합니다
 
 dateutil 패키지가 필요합니다
 > pip install python-dateutil --upgrade
+
+widget-tweaks 모듈이 필요합니다
+> pip3 install django-widget-tweaks
