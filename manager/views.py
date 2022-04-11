@@ -6,6 +6,7 @@ from count.models import CountBoard
 from add.models import AdBoard
 from event.models import EventBoard
 from member.models import User
+from board.models import Board, Comment
 from django.db.models import Q
 
 
@@ -187,6 +188,9 @@ def m_user_stats(request):
     return render(request, 'm_user_stats.html', context)
 
 
+
+
+
 def m_user_manage(request):
     # TODO
     pass
@@ -208,8 +212,126 @@ def m_contents_manage(request):
 
 
 def m_board_stats(request):
-    # TODO
-    pass
+    context = {
+        'labelData': [],
+        'numData': [],
+        # 통계값
+        'all_board': 0,
+        'today_board': 0,
+        'today_view': 0,
+        # 검색값
+        'viewType': 'view_board',
+        'startDate': (datetime.today() - timedelta(days=6)).strftime("%Y-%m-%d"),
+        'endDate': datetime.today().strftime("%Y-%m-%d"),
+        'viewRange': 'view_day',
+    }
+    # 기본통계
+    try:
+        context['all_board'] = Board.objects.count()
+    except ObjectDoesNotExist:
+        pass
+    try:
+        context['today_board'] = CountBoard.objects.get(reg_date=datetime.today()).board_cnt
+        context['today_view'] = CountBoard.objects.get(reg_date=datetime.today()).board_view_cnt
+    except ObjectDoesNotExist:
+        temp = CountBoard()
+        temp.save()
+
+    # 차트 조건
+    if request.method == 'POST':
+        context['viewType'] = request.POST['view_type']
+        context['startDate'] = request.POST['start_date']
+        context['endDate'] = request.POST['end_date']
+        context['viewRange'] = request.POST['view_range']
+    viewType = context['viewType']
+    startDate = context['startDate']
+    endDate = context['endDate']
+    viewRange = context['viewRange']
+
+    # 차트 데이터
+    context['labelData'] = []
+    context['numData'] = []
+    checkDate = datetime.strptime(startDate,'%Y-%m-%d')
+    lastDate = datetime.strptime(endDate,'%Y-%m-%d')
+    if viewType == 'view_board':
+        while checkDate <= lastDate:
+            if viewRange == 'view_day':
+                try:
+                    context['numData'].append(Board.objects.filter(
+                        registered_date__lt=(checkDate + timedelta(days=1))
+                        ).count())
+                    context['labelData'].append(checkDate.strftime("%Y-%m-%d"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += timedelta(days=1)
+            elif viewRange == 'view_month':
+                checkDate = datetime.strptime(checkDate.strftime("%Y-%m"),'%Y-%m')
+                try:
+                    context['numData'].append(Board.objects.filter(
+                        registered_date__lt=(checkDate + relativedelta(months=1))
+                        ).count())
+                    context['labelData'].append(checkDate.strftime("%Y-%m"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(months=1)
+            elif viewRange == 'view_year':
+                checkDate = datetime.strptime(checkDate.strftime("%Y"),'%Y')
+                try:
+                    context['numData'].append(Board.objects.filter(
+                        registered_date__lt=(checkDate + relativedelta(years=1))
+                        ).count())
+                    context['labelData'].append(checkDate.strftime("%Y"))
+                except ObjectDoesNotExist:
+                    pass
+                checkDate += relativedelta(years=1)
+    elif viewType == 'view_cnt':
+        while checkDate <= lastDate:
+            checkExist = True
+            if viewRange == 'view_day':
+                try:
+                    context['numData'].append(CountBoard.objects.get(
+                        reg_date=checkDate
+                        ).board_view_cnt)
+                except ObjectDoesNotExist:
+                    context['numData'].append(0)
+                context['labelData'].append(checkDate.strftime("%Y-%m-%d"))
+                checkDate += timedelta(days=1)
+            elif viewRange == 'view_month':
+                try:
+                    temp = CountBoard.objects.filter(
+                        Q(reg_date__year=checkDate.strftime("%Y")) &
+                        Q(reg_date__month=checkDate.strftime("%m"))
+                        )
+                    tempSum = 0
+                    for i in temp:
+                        tempSum += i.board_view_cnt
+                    context['numData'].append(tempSum)
+                    checkExist = False
+                except ObjectDoesNotExist:
+                    pass
+                context['labelData'].append(checkDate.strftime("%Y-%m"))
+                if checkExist:
+                    context['numData'].append(0)
+                checkDate += relativedelta(months=1)
+            elif viewRange == 'view_year':
+                try:
+                    temp = CountBoard.objects.filter(
+                        Q(reg_date__year=checkDate.strftime("%Y"))
+                        )
+                    tempSum = 0
+                    for i in temp:
+                        tempSum += i.board_view_cnt
+                    context['numData'].append(tempSum)
+                    checkExist = False
+                except ObjectDoesNotExist:
+                    pass
+                context['labelData'].append(checkDate.strftime("%Y"))
+                if checkExist:
+                    context['numData'].append(0)
+                checkDate += relativedelta(years=1)
+
+    return render(request, 'm_board_stats.html', context)
+    
 
 
 def m_board_manage(request):
