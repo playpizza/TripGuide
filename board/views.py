@@ -1,10 +1,14 @@
 import os
-from django.shortcuts import render
-from django.views.generic import ListView
+import json
+
+from django.urls import reverse_lazy
 from .models import Board
+from .models import Comment
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
 from django.contrib import messages
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.conf import settings
 
 class BoardListView(ListView):
@@ -99,20 +103,26 @@ def board_write(request):
 def board_detail(request, id):
     try:
         board = Board.objects.get(id=id)
+        comment_list = Comment.objects.order_by('-id') 
 
         board.hits += 1
         board.save()
+
+        context = {
+            'board': board,
+            'comments': comment_list,
+        }
     except Board.DoesNotExist:
         raise Http404('게시글을 찾을수 없습니다')
 
-    return render(request, './detail.html', {'board': board})
+    return render(request, './detail.html', context)
 
 
 
-def board_update(request, pk):
+def board_update(request, id):
     if request.method == "GET":
         try:
-            board = Board.objects.get(id=pk)
+            board = Board.objects.get(id=id)
         except Board.DoesNotExist:
             raise Http404('게시글을 찾을수 없습니다')
 
@@ -124,7 +134,7 @@ def board_update(request, pk):
         user_id = request.user
 
         if request.FILES:
-            board = Board.objects.get(id=pk)
+            board = Board.objects.get(id=id)
             upload_files = request.FILES["upload_files"]
             board.title = title
             board.content = content
@@ -132,7 +142,7 @@ def board_update(request, pk):
             board.upload_files = upload_files
             board.filename = upload_files.name
         else:
-            board = Board.objects.get(id=pk)
+            board = Board.objects.get(id=id)
             board.title = title
             board.content = content
             board.write = user_id
@@ -151,11 +161,24 @@ def board_delete(request):
 
         return render(request, './deleteOK.html')
 
-def board_comment(request): # 댓글달기
-    # TODO
-    pass
+def comment_write(request):
+    if request.method == 'POST':
+        content = request.POST['content']
+        id = request.POST['board_id']
+        post = get_object_or_404(Board, id=id)
+        user_id = request.user
+        board = Board.objects.get(id=id)
+
+        comment = Comment(
+                post = post,
+                content = content,
+                writer = user_id,
+            )
+        
+        comment.save()
+
+        return render(request, './commentOk.html', {'board': board})
 
 
-def board_per_page(request):
-    # TODO
+def board_comment_delete(request, id):
     pass

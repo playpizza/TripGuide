@@ -22,6 +22,24 @@
             {% endif %}
         </div>
     </div>
+    <div class="mb-3">
+        <form action="/board/comment/write/" method="POST">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="댓글을 입력하세요">
+            <input type="submit" value="Write" />
+            <input type="hiden" name="board_id" value="{{ board.id }}">
+        </form>
+        {% for comment in comment_list %}
+        <div class="comment">
+            <div class="date">{{ commnet.created }}</div>
+            <div class="writer">{{ comment.writer }}</div>
+            <div class="content">{{ comment.content }}</div>
+        </div>
+        {% empty %}
+            <p>No comments here yet</p>
+        {% endfor %}
+    </div>
+
     <a class="btn btn-outline-dark" href="../../list">목록</a>
     {% if user == board.writer %}
     <a class="btn btn-outline-dark" href="../../update/{{ board.id }}">수정</a>
