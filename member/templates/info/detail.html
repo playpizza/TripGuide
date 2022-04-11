@@ -39,11 +39,23 @@
         <label for="age">나이:</label>
         <input type="text" class="cp-input" style="margin-bottom:20px" value="{{ profile_user.age }}" disabled>
     </div>
-    <button type="button" class="cp-button" style="width:100%;" onclick="profile_update()">수정하기</button>
+    <button type="button" class="cp-button" style="width:100%; margin-bottom:20px" onclick="profile_update()">수정하기</button>
+    <button type="button" class="cp-button" style="width:100%;" onclick="chkDelete()">회원탈퇴</button>
+
+    <form action="{% url 'Member:withdrawal' %}" name="delete" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ profile_user.id }}">
+    </form>
 
     <script>
         function profile_update(){
             location.href = "{% url 'Member:info_update' profile_user.id %}"
+        }
+        function chkDelete(){
+            var r = confirm("정말로 회원탈퇴를 진행하시겠습니까?");
+            if(r){
+                document.forms['delete'].submit();
+            }
         }
     </script>
 
