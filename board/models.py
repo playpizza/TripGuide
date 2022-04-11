@@ -10,6 +10,7 @@ class Board(models.Model):
     registered_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
     upload_files = models.FileField(upload_to="UploadedFiles/", null=True, blank=True, verbose_name='파일')
     filename = models.CharField(max_length=64, null=True, verbose_name='첨부파일명')
+    like_count = models.PositiveIntegerField(default=0, verbose_name='좋아요 수')
 
     def __str__(self):
         return self.title

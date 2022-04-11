@@ -1,0 +1,99 @@
+{% extends "manage_base.html" %}
+{% load static %}
+
+{% block link %} {% endblock %}
+
+{% block title %} {% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    var mUserDetailUrls = {}
+</script>
+{% endblock %}
+
+
+
+{% block contents %}
+<form class="w-100 me-3 align-items-center flex-fill" action="." method="POST">
+    {% csrf_token %}
+    <div class="container m-3 d-flex">
+        <p class="flex-fill h4">유저검색</p>
+        {% if onlyReport == 'on' %}
+        <input type="checkbox" name="onlyReport" id="onlyReport" class="form-check-input" checked> 
+        {% else %}
+        <input type="checkbox" name="onlyReport" id="onlyReport" class="form-check-input"> 
+        {% endif %}
+        <label for="onlyReport" class="form-check-label ms-3">미처리 신고만 표시</label>
+    </div>
+    <div class="d-flex align-items-center m-3">
+        <input type="search" class="form-control" placeholder="Search..." aria-label="Search" name="searchWord" value="{{searchWord}}">
+        <input class="btn btn-outline-primary ms-3" type="submit" value="확인">
+    </div>
+</form>
+<div class="container m-3">
+    <div class="bd-example flex-fill m-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">유저아이디</th>
+                    <th scope="col">유저닉네임</th>
+                    <th scope="col">유저이름</th>
+                    <th scope="col">가입일</th>
+                    <th scope="col">신고여부</th>
+                </tr>
+            </thead>
+            <!-- TODO data받으면 for문으로 다시 작성 -->
+            <tbody>
+                {% for u in userData %}
+                <script>
+                    mUserDetailUrls['{{u.id}}'] = "{% url 'Manager:userDetail' u.id %}";
+                </script>
+                <tr onclick="location.href=mUserDetailUrls['{{u.id}}'];">
+                    <th scope="row">{{u.username}}</th>
+                    <td>{{u.nickname}}</td>
+                    <td>{{u.name}}</td>
+                    <td>{{u.date_joined|date:'Y-m-d'}}</td>
+                    {% if u.is_banned == 1 %}
+                    <td><b class="text-danger">신고됨</b></td>
+                    {% else %}
+                    <td>X</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- pagination -->
+<div class="row mt-2">
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if userData.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?p={{userData.previous_page_number}}">이전으로</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">                    
+                    <a class="page-link disabled" href="#">이전으로</a>
+                </li>
+                {% endif %}
+                <li class="page-item active">
+                    <a class="page-link" href="#">{{userData.number}} / {{userData.paginator.num_pages }}</a>
+                </li>                
+                {% if userData.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?p={{userData.next_page_number}}">다음으로</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link disabled" href="#">다음으로</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- pagination -->
+{% endblock %}

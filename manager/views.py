@@ -9,6 +9,7 @@ from member.models import User
 from board.models import Board, Comment
 from django.db.models import Q
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 def manage_home(request):
     context = {
@@ -193,8 +194,49 @@ def m_user_stats(request):
 
 
 def m_user_manage(request):
-    # TODO
-    pass
+    context = {
+        'onlyReport': 'off',
+        'searchWord': '',
+        'userData': [],
+    }
+    if request.method == 'POST':
+        context['onlyReport'] = request.POST.get('onlyReport', 'off')
+        context['searchWord'] = request.POST['searchWord'].strip()
+        # searchWord = context['searchWord'].strip().split()
+        searchWord = context['searchWord']
+        if context['onlyReport'] == 'off':
+            try:
+                all_users = User.objects.filter(
+                    Q(username__icontains=searchWord) |
+                    Q(name__icontains=searchWord) |
+                    Q(nickname__icontains=searchWord)
+                ).order_by('-date_joined')
+            except ObjectDoesNotExist:
+                all_users = []
+        else:
+            try:
+                all_users = User.objects.filter(
+                    Q(is_banned=1)
+                ) & User.objects.filter(
+                    Q(username__icontains=searchWord) |
+                    Q(name__icontains=searchWord) |
+                    Q(nickname__icontains=searchWord)
+                ).order_by('-date_joined')
+            except ObjectDoesNotExist:
+                all_users = []
+    else:
+        try:
+            all_users = User.objects.all().order_by('-date_joined')
+        except ObjectDoesNotExist:
+            all_users = []
+    
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_users, 20)
+    users = paginator.get_page(page)
+
+    context['userData'] = users
+
+    return render(request, 'm_user_manage.html', context)
 
 
 def m_user_detail(request, id):

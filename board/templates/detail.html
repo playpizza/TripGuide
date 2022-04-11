@@ -4,9 +4,15 @@
 <div class="mb-3 mt-3 clearfix">
     <span class="float-start me-2">제목: {{ board.title }}</span>
     <span class="float-end ms-4">작성일: {{ board.registered_date|date:"Y-m-d" }}</span>
-    <span class="float-end">조회수: {{ board.hits }}</span>
+    <span class="float-end ms-4">조회수: {{ board.hits }}</span>
+    <span class="float-end">좋아요 수: {{ board.like_count }}</span>
 </div>
-
+<form action="/board/like_count/" class="float-end" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="board_id" value="{{ board.id }}">
+    <input type="submit" class="btn btn-primary" style="padding:1px 3px;" value="좋아요" />
+</form>
+<br>
 <section>
     <div class="mb-3">
         <label for="writer">작성자:</label>
@@ -27,13 +33,13 @@
             {% csrf_token %}
             <input type="text" name="content" placeholder="댓글을 입력하세요">
             <input type="submit" value="Write" />
-            <input type="hiden" name="board_id" value="{{ board.id }}">
+            <input type="hidden" name="board_id" value="{{ board.id }}">
         </form>
-        {% for comment in comment_list %}
+        {% for comment in comments %}
         <div class="comment">
-            <div class="date">{{ commnet.created }}</div>
-            <div class="writer">{{ comment.writer }}</div>
-            <div class="content">{{ comment.content }}</div>
+            <div class="writer">작성자: {{ comment.writer }}</div>
+            <div class="content">내용: {{ comment.content }}</div>
+            <br>
         </div>
         {% empty %}
             <p>No comments here yet</p>

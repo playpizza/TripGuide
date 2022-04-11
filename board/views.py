@@ -1,10 +1,9 @@
 import os
 import json
-
 from django.urls import reverse_lazy
 from .models import Board
 from .models import Comment
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 from django.contrib import messages
 from django.db.models import Q
@@ -182,3 +181,13 @@ def comment_write(request):
 
 def board_comment_delete(request, id):
     pass
+
+
+
+def like_count(request):
+    id = request.POST['board_id']
+    board = Board.objects.get(id=id)
+    board.like_count += 1
+    board.save()
+
+    return redirect('Board:detail', id)
