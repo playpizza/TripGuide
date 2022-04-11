@@ -12,24 +12,15 @@
 
 {% block contents %}
 <div class="d-flex">
-    <div class="flex-fill">전체 게시글 : {{all_board}}개</div>
-    <div class="flex-fill">금일 게시글 : {{today_board}}개</div>
-    <div class="flex-fill">금일 조회수 : {{today_view}}회</div>
+    <div class="flex-fill">전체 댓글 : {{all_comment}}개</div>
+    <div class="flex-fill">금일 댓글 : {{today_comment}}개</div>
 </div>
 <div class="">
     <form action="." name="chart_select" method="POST">
         {% csrf_token %}
         <div class="row justify-content-center">
             <div class="col-md-2">
-                <select name="view_type" class="form-select">
-                    {% if viewType == 'view_board' %}
-                    <option value="view_board" selected>게시글</option>
-                    <option value="view_cnt">조회수</option>
-                    {% else %}
-                    <option value="view_board">게시글</option>
-                    <option value="view_cnt" selected>조회수</option>
-                    {% endif %}
-                </select>
+                <p class="h4">댓글 수</p>
             </div>
             <div class="col-md-6 d-flex">
                 <input type="date" name="start_date" id="" class="form-control" value="{{startDate}}">
