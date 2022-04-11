@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import os
 from dateutil.relativedelta import relativedelta
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
@@ -378,8 +379,59 @@ def m_board_stats(request):
 
 
 def m_board_manage(request):
-    # TODO
-    pass
+    context = {
+        'onlyReport': 'off',
+        'searchWord': '',
+        'boardData': [],
+        'defaultTarget': 0,
+    }
+    if request.method == 'POST':
+        # 삭제
+        if request.POST['targetId'] != 0:
+            try:
+                targetBoard = Board.objects.get(id=request.POST['targetId'])
+                os.remove(targetBoard.upload_files.path)
+                targetBoard.delete()
+            except ObjectDoesNotExist:
+                pass
+        # 검색
+        context['onlyReport'] = request.POST.get('onlyReport', 'off')
+        context['searchWord'] = request.POST['searchWord'].strip()
+        searchWord = context['searchWord']
+        if context['onlyReport'] == 'off':
+            try:
+                all_boards = Board.objects.filter(
+                    Q(writer__name__icontains=searchWord) |
+                    Q(title__icontains=searchWord)
+                ).order_by('-registered_date')
+            except ObjectDoesNotExist:
+                all_boards = []
+        else:
+            pass
+            # try:
+            #     all_users = Board.objects.filter(
+            #         Q(is_banned=1)
+            #     ) & User.objects.filter(
+            #         Q(username__icontains=searchWord) |
+            #         Q(name__icontains=searchWord) |
+            #         Q(nickname__icontains=searchWord)
+            #     ).order_by('-registered_date')
+            # except ObjectDoesNotExist:
+            #     all_users = []
+    else:
+        try:
+            all_boards = Board.objects.all().order_by('-registered_date')
+        except ObjectDoesNotExist:
+            all_boards = []
+    
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_boards, 20)
+    boards = paginator.get_page(page)
+
+    context['boardData'] = boards
+
+
+    return render(request, 'm_board_manage.html', context)
 
 
 def m_review_stats(request):
