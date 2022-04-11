@@ -390,7 +390,8 @@ def m_board_manage(request):
         if request.POST['targetId'] != 0:
             try:
                 targetBoard = Board.objects.get(id=request.POST['targetId'])
-                os.remove(targetBoard.upload_files.path)
+                if targetBoard.upload_files:
+                    os.remove(targetBoard.upload_files.path)
                 targetBoard.delete()
             except ObjectDoesNotExist:
                 pass
