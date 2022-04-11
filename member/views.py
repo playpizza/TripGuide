@@ -65,8 +65,11 @@ def member_qusetion_write(request):
 
 
 def member_withdrawal(request):
-    # TODO
-    pass
+    if request.method == "POST":
+        id = request.POST['id']
+        profile_user = User.objects.get(id=id)
+        profile_user.delete()
 
+        return render(request, 'info/deleteOk.html')
 
 
