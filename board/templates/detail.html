@@ -14,50 +14,57 @@
 </form>
 <br>
 <section>
-    <div class="mb-3">
-        <label for="writer">작성자:</label>
-        <div class="border bg-light rounded p-2" >{{ board.nickname }}</div>
-    </div>      
-    <div class="mb-3 mt-3">
-        <label for="content">내용:</label>
-        <div class="border bg-light rounded p-2" >{{ board.content }}<br><br>
-            {% if board.filename %}
-            <a href="{{ board.upload_files.url }}">
-                <img src="{{ board.upload_files.url }}" width="250px" height="300px">
-            </a>
-            {% endif %}
-        </div>
-    </div>
-    <div class="mb-3">
-        {% for comment in comments %}
-        {% if comment.post_id == board.id %}
-        <tr class="text-center">
-            <div class="comment">
-                <form action="../../comment/delete/" name="comment_delete" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="c_id" value="{{ comment.id }}">
-                    <input type="hidden" name="b_id" value="{{ board.id }}">
-                    <button type="button" class="btn btn-outline-dark float-end" onclick="Comment_chkDelete()">삭제</button>
-                </form>
-                <div class="writer">작성자: {{ comment.nickname }}</div>
-                <div class="content">내용: {{ comment.content }}</div>
-                <br>
+    <table class="table table-sm table-hover">
+        <thead style="border-top: 1px solid #dee2e6;">
+            <div class="mb-3">
+                <label for="writer">작성자</label>
+                <div class="border bg-light rounded p-2" >{{ board.nickname }}</div>
+            </div>      
+            <div class="mb-3 mt-3">
+                <label for="content">내용</label>
+                <div class="border bg-light rounded p-2" >{{ board.content }}<br><br>
+                    {% if board.filename %}
+                    <a href="{{ board.upload_files.url }}">
+                        <img src="{{ board.upload_files.url }}" width="250px" height="300px">
+                    </a>
+                    {% endif %}
+                </div>
             </div>
-        </tr>
-        {% endif %}
-        {% empty %}
-            <p>No comments here yet</p>
-        {% endfor %}
-        {% if user.is_authenticated %}
-        <form action="/board/comment/write/" method="POST">
-            {% csrf_token %}
-            <input type="text" name="content" placeholder="댓글을 입력하세요">
-            <input type="submit" value="Write" />
-            <input type="hidden" name="board_id" value="{{ board.id }}">
-        </form>
-        {% endif %}
-    </div>
-
+        </thead>
+        <tbody style="border-top: 1px solid #dee2e6;">
+            <div class="mb-3">
+                {% for comment in comments %}
+                {% if comment.post_id == board.id %}
+                <tr class="table-secondary">
+                    <div class="col-md-offset-6">
+                        {% if comment.writer == user %}
+                        <form action="../../comment/delete/" name="comment_delete" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="c_id" value="{{ comment.id }}">
+                            <input type="hidden" name="b_id" value="{{ board.id }}">
+                            <button type="button" class="btn btn-outline-dark float-end" onclick="Comment_chkDelete()">삭제</button>
+                        </form>
+                        {% endif %}
+                        <div class="writer">작성자: {{ comment.nickname }}</div>
+                        <div class="content">내용: {{ comment.content }}</div>
+                        <br>
+                    </div>
+                </tr>
+                {% endif %}
+                {% empty %}
+                    <p>No comments here yet</p>
+                {% endfor %}
+                {% if user.is_authenticated %}
+                <form action="/board/comment/write/" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="content" placeholder="댓글을 입력하세요">
+                    <input type="submit" value="Write" />
+                    <input type="hidden" name="board_id" value="{{ board.id }}">
+                </form>
+                {% endif %}
+            </div>
+        </tbody>
+    </table>
     <a class="btn btn-outline-dark" href="../../list">목록</a>
     {% if user == board.writer %}
     <a class="btn btn-outline-dark" href="../../update/{{ board.id }}">수정</a>
