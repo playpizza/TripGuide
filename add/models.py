@@ -5,6 +5,8 @@ class AdBoard(models.Model):
     title = models.CharField(max_length=128)
     # 이미지
     mainphoto = models.FileField(upload_to="AdFiles/", blank=True, null=True)
+    # 이미지 이름
+    image_name = models.CharField(max_length=200, null=True)
     # 링크
     link = models.CharField(max_length=128, null=True)
     # 내용

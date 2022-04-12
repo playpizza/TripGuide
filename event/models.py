@@ -5,6 +5,8 @@ class EventBoard(models.Model):
     title = models.CharField(max_length=128)
     # 이미지
     mainphoto = models.FileField(upload_to="EventFiles/", blank=True, null=True)
+    # 이미지 이름
+    image_name = models.CharField(max_length=200, null=True)
     # 내용
     contents = models.TextField()
     # 조회수
