@@ -7,10 +7,12 @@
 
 
 {% block script %}
-<script type="text/javascript"> 
-  var contents1Url = "{% url 'Board:list' %}";
-  var board1Url = "{% url 'Board:detail' 1 %}";
-  var review1Url = ".";
+<script type="text/javascript">
+  var contentsUrl = "{% url 'Board:list' %}";
+  var boardListUrl = "{% url 'Board:list' %}";
+  var reviewListUrl = "{% url 'Board:list' %}";
+  var boardUrls = {};
+  var reviewUrls = {};
 </script>
 {% endblock %}
 
@@ -44,7 +46,8 @@
           This content is a little bit longer.</p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href=contents1Url;">View</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary"
+              onclick="location.href=contents1Url;">View</button>
             <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
           </div>
           <small class="text-muted">평점</small>
@@ -88,7 +91,6 @@
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveContent3();">View</button>
-            <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
           </div>
           <small class="text-muted">평점</small>
         </div>
@@ -100,8 +102,12 @@
 
 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
   <div class="bd-example flex-fill m-3">
-    <p class="h2 mb-3">베스트 게시글</p>
-    <table class="table table-striped">
+    <div class="d-flex">
+      <p class="h2 mb-3 flex-fill">베스트 게시글</p>
+      <button type="button" class="btn btn-sm btn-outline-secondary mr-3"
+        onclick="location.href=boardListUrl;">More</button>
+    </div>
+    <table class="table table-hover">
       <thead>
         <tr>
           <th scope="col">순위</th>
@@ -110,44 +116,28 @@
           <th scope="col">게시일</th>
         </tr>
       </thead>
-      <!-- TODO data받으면 for문으로 다시 작성 -->
       <tbody>
-        <tr onclick="location.href=board1Url;">
-          <th scope="row">1</th>
-          <td>qe</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+        {% for b in bestBoard %}
+        <script>
+          boardUrls['{{b.id}}'] = "{% url 'Board:detail' b.id %}";
+        </script>
+        <tr onclick="location.href=boardUrls['{{b.id}}'];">
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{b.title}}</td>
+          <td>{{b.like_count}}</td>
+          <td>{{b.registered_date|date:'Y-m-d'}}</td>
         </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry the Bird</td>
-          <td>@twitter</td>
-          <td>@twitter</td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
   <div class="bd-example flex-fill m-3">
-    <p class="h2 mb-3">베스트 리뷰</p>
-    <table class="table table-striped">
+    <div class="d-flex">
+      <p class="h2 mb-3 flex-fill">베스트 리뷰</p>
+      <button type="button" class="btn btn-sm btn-outline-secondary mr-3"
+        onclick="location.href=reviewListUrl;">More</button>
+    </div>
+    <table class="table table-hover">
       <thead>
         <tr>
           <th scope="col">순위</th>
@@ -156,39 +146,6 @@
           <th scope="col">게시일</th>
         </tr>
       </thead>
-      <!-- TODO data받으면 for문으로 다시 작성 -->
-      <tbody>
-        <tr onclick="location.href=review1Url;">
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry the Bird</td>
-          <td>@twitter</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
     </table>
   </div>
 </div>

@@ -20,15 +20,10 @@ def manage_home(request):
         'today_contents_view': 0,
         'activation_contents': 0,   # TODO
         'today_board': 0,
-        'report_board': 0,  # TODO
         'today_review': 0,
-        'report_review': 0, # TODO
         'today_comment': 0,
-        'report_comment': 0,    # TODO
         'on_event': 0,
         'today_event_veiw': 0,
-        'today_question': 0,    # TODO
-        'undo_question': 0,     # TODO
         'on_ad': 0,
         'today_ad_view':0, 
     }
@@ -676,7 +671,7 @@ def m_review_stats(request):
 
     return render(request, 'm_review_stats.html', context)
 
-# TODO-----------------------------------------------------------------------------------------
+
 def m_review_manage(request):
     context = {
         'searchWord': '',
@@ -834,7 +829,7 @@ def m_comment_stats(request):
 
     return render(request, 'm_comment_stats.html', context)
 
-# TODO------------------------------------------------------------------------------------------
+
 def m_comment_manage(request):
     context = {
         'onlyReport': 'off',
@@ -882,31 +877,32 @@ def m_comment_manage(request):
 
 
 def m_event_manage(request):
-    # TODO
-    pass
+    context = {
+
+    }
+    return render(request, 'm_event_manage.html', context)
 
 
 def m_event_detail(request, id):
-    # TODO
-    pass
+    context = {
+        
+    }
+    return render(request, 'm_event_detail.html', context)
 
 
 def m_ad_manage(request):
-    # TODO
-    pass
+    context = {
+        
+    }
+    return render(request, 'm_ad_manage.html', context)
 
 
 def m_ad_detail(request, id):
-    # TODO
-    pass
+    context = {
+        
+    }
+    return render(request, 'm_ad_detail.html', context)
 
 
-def m_question_manage(request):
-    # TODO
-    pass
 
-
-def m_question_detail(request, id):
-    # TODO
-    pass
 

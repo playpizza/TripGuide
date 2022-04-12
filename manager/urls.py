@@ -19,7 +19,5 @@ urlpatterns = [
     path("event/manage/", views.m_event_manage, name="eventManage"), 
     path("event/detail/<int:id>/", views.m_event_detail, name="eventDetail"), 
     path("ad/manage/", views.m_ad_manage, name="adManage"), 
-    path("ad/detail/<int:id>/", views.m_ad_detail, name="adDetail"), 
-    path("question/manage/", views.m_question_manage, name="questionManage"), 
-    path("question/detail/<int:id>/", views.m_question_detail, name="questionDetail"), 
+    path("ad/detail/<int:id>/", views.m_ad_detail, name="adDetail"),  
 ]

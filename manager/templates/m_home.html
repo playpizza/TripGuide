@@ -21,7 +21,6 @@
     var mCommentManageUrl = "{% url 'Manager:commentManage' %}";
     var mEventManageUrl = "{% url 'Manager:eventManage' %}";
     var mAdManageUrl = "{% url 'Manager:adManage' %}";
-    var mQuestionManageUrl = "{% url 'Manager:questionManage' %}";
 </script>
 {% endblock %}
 
@@ -75,7 +74,7 @@
             <hr>
             <div class="view_box">
                 <h2>게시판 관리</h2>
-                <p>신고된 게시글 - {{report_board}} 개</p>
+                <p>&nbsp;</p>
                 <button class="btn btn-outline-secondary" type="button" onclick="location.href = mBoardManageUrl;">더
                     보기</button>
             </div>
@@ -92,7 +91,7 @@
             <hr>
             <div class="view_box">
                 <h2>리뷰 관리</h2>
-                <p>신고된 리뷰 - {{report_review}} 개</p>
+                <p>&nbsp;</p>
                 <button class="btn btn-outline-secondary" type="button" onclick="location.href = mReviewManageUrl;">더
                     보기</button>
             </div>
@@ -109,7 +108,7 @@
             <hr>
             <div class="view_box">
                 <h2>댓글 관리</h2>
-                <p>신고된 댓글 - {{report_comment}} 개</p>
+                <p>&nbsp;</p>
                 <button class="btn btn-outline-secondary" type="button" onclick="location.href = mCommentManageUrl;">더
                     보기</button>
             </div>
@@ -126,17 +125,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 mt-3">
-        <div class="h-100 p-5 bg-light border rounded-3">
-            <div class="view_box one_box">
-                <h2>문의사항 관리</h2>
-                <p>금일 문의사항 - {{today_question}} 개</p>
-                <p>미처리 문의사항 - {{undo_question}} 회</p>
-                <button class="btn btn-outline-secondary" type="button" onclick="location.href = mAdManageUrl;">더
-                    보기</button>
-            </div>
-        </div>
-    </div>
+    
     <div class="col-md-6 mt-3">
         <div class="h-100 p-5 bg-light border rounded-3">
             <div class="view_box one_box">
