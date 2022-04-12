@@ -860,7 +860,7 @@ def m_comment_manage(request):
         try:
             all_comments = Comment.objects.filter(
                 Q(nickname__icontains=searchWord) |
-                Q(post__icontains=searchWord)
+                Q(post__title__icontains=searchWord)
             ).order_by('-created')
         except ObjectDoesNotExist:
             all_comments = []
