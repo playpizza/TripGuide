@@ -18,17 +18,17 @@ def manage_home(request):
         'today_login': 0,
         'user_num': 0,
         'today_contents_view': 0,
-        'activation_contents': 0,
+        'activation_contents': 0,   # TODO
         'today_board': 0,
-        'report_board': 0,
+        'report_board': 0,  # TODO
         'today_review': 0,
-        'report_review': 0,
+        'report_review': 0, # TODO
         'today_comment': 0,
-        'report_comment': 0,
+        'report_comment': 0,    # TODO
         'on_event': 0,
         'today_event_veiw': 0,
-        'today_question': 0,
-        'undo_question': 0,
+        'today_question': 0,    # TODO
+        'undo_question': 0,     # TODO
         'on_ad': 0,
         'today_ad_view':0, 
     }
@@ -190,8 +190,6 @@ def m_user_stats(request):
                 checkDate += relativedelta(years=1)
 
     return render(request, 'm_user_stats.html', context)
-
-
 
 
 
@@ -383,42 +381,30 @@ def m_board_manage(request):
         'onlyReport': 'off',
         'searchWord': '',
         'boardData': [],
-        'defaultTarget': 0,
+        'defaultDelete': 0,
     }
     if request.method == 'POST':
         # 삭제
-        if request.POST['targetId'] != 0:
+        if request.POST['deleteId'] != 0:
             try:
-                targetBoard = Board.objects.get(id=request.POST['targetId'])
+                targetBoard = Board.objects.get(id=request.POST['deleteId'])
                 if targetBoard.upload_files:
                     os.remove(targetBoard.upload_files.path)
                 targetBoard.delete()
             except ObjectDoesNotExist:
                 pass
+
+
         # 검색
-        context['onlyReport'] = request.POST.get('onlyReport', 'off')
         context['searchWord'] = request.POST['searchWord'].strip()
         searchWord = context['searchWord']
-        if context['onlyReport'] == 'off':
-            try:
-                all_boards = Board.objects.filter(
-                    Q(writer__name__icontains=searchWord) |
-                    Q(title__icontains=searchWord)
-                ).order_by('-registered_date')
-            except ObjectDoesNotExist:
-                all_boards = []
-        else:
-            pass
-            # try:
-            #     all_users = Board.objects.filter(
-            #         Q(is_banned=1)
-            #     ) & User.objects.filter(
-            #         Q(username__icontains=searchWord) |
-            #         Q(name__icontains=searchWord) |
-            #         Q(nickname__icontains=searchWord)
-            #     ).order_by('-registered_date')
-            # except ObjectDoesNotExist:
-            #     all_users = []
+        try:
+            all_boards = Board.objects.filter(
+                Q(writer__name__icontains=searchWord) |
+                Q(title__icontains=searchWord)
+            ).order_by('-registered_date')
+        except ObjectDoesNotExist:
+            all_boards = []
     else:
         try:
             all_boards = Board.objects.all().order_by('-registered_date')
@@ -690,10 +676,92 @@ def m_review_stats(request):
 
     return render(request, 'm_review_stats.html', context)
 
-
+# TODO-----------------------------------------------------------------------------------------
 def m_review_manage(request):
-    # TODO
-    pass
+    context = {
+        'searchWord': '',
+        'reviewData': [],
+        'viewType': '',
+        'defaultDelete': 0,
+    }
+    if request.method == 'POST':
+        context['onlyReport'] = request.POST.get('onlyReport', 'off')
+        context['viewType'] = request.POST['viewType']
+        context['searchWord'] = request.POST['searchWord'].strip()
+        searchWord = context['searchWord']
+        viewType = context['viewType']
+
+        # 삭제
+        if request.POST['deleteId'] != 0:
+            if viewType == 'T':
+                try:
+                    targetreview = T_review.objects.get(id=request.POST['deleteId'])
+                    targetreview.delete()
+                except ObjectDoesNotExist:
+                    pass
+            elif viewType == 'R':
+                try:
+                    targetreview = R_review.objects.get(id=request.POST['deleteId'])
+                    targetreview.delete()
+                except ObjectDoesNotExist:
+                    pass
+            elif viewType == 'H':
+                try:
+                    targetreview = H_review.objects.get(id=request.POST['deleteId'])
+                    targetreview.delete()
+                except ObjectDoesNotExist:
+                    pass
+            elif viewType == 'F':
+                try:
+                    targetreview = F_review.objects.get(id=request.POST['deleteId'])
+                    targetreview.delete()
+                except ObjectDoesNotExist:
+                    pass
+
+        # 검색
+        if viewType == 'T':
+            try:
+                all_reviews = T_review.objects.filter(
+                    title__icontains=searchWord
+                ).order_by('-reg_date')
+            except ObjectDoesNotExist:
+                all_reviews = []
+        elif viewType == 'R':
+            try:
+                all_reviews = R_review.objects.filter(
+                    title__icontains=searchWord
+                ).order_by('-reg_date')
+            except ObjectDoesNotExist:
+                all_reviews = []
+        elif viewType == 'H':
+            try:
+                all_reviews = H_review.objects.filter(
+                    title__icontains=searchWord
+                ).order_by('-reg_date')
+            except ObjectDoesNotExist:
+                all_reviews = []
+        elif viewType == 'F':
+            try:
+                all_reviews = F_review.objects.filter(
+                    title__icontains=searchWord
+                ).order_by('-reg_date')
+            except ObjectDoesNotExist:
+                all_reviews = []
+    else:
+        context['viewType'] = 'T'
+        try:
+            all_reviews = T_review.objects.all().order_by('-reg_date')
+        except ObjectDoesNotExist:
+            all_reviews = []
+    
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_reviews, 20)
+    reviews = paginator.get_page(page)
+
+    context['reviewData'] = reviews
+
+
+    return render(request, 'm_review_manage.html', context)
 
 
 def m_comment_stats(request):
@@ -766,10 +834,51 @@ def m_comment_stats(request):
 
     return render(request, 'm_comment_stats.html', context)
 
-
+# TODO------------------------------------------------------------------------------------------
 def m_comment_manage(request):
-    # TODO
-    pass
+    context = {
+        'onlyReport': 'off',
+        'searchWord': '',
+        'commentData': [],
+        'defaultDelete': 0,
+        'defaultReport': 0,
+    }
+    if request.method == 'POST':
+        # 삭제
+        if request.POST['deleteId'] != 0:
+            try:
+                targetComment = Comment.objects.get(id=request.POST['deleteId'])
+                targetComment.delete()
+            except ObjectDoesNotExist:
+                pass
+
+
+        # 검색
+        context['searchWord'] = request.POST['searchWord'].strip()
+        searchWord = context['searchWord']
+        
+        try:
+            all_comments = Comment.objects.filter(
+                Q(nickname__icontains=searchWord) |
+                Q(post__icontains=searchWord)
+            ).order_by('-created')
+        except ObjectDoesNotExist:
+            all_comments = []
+        
+    else:
+        try:
+            all_comments = Comment.objects.all().order_by('-created')
+        except ObjectDoesNotExist:
+            all_comments = []
+    
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_comments, 20)
+    comments = paginator.get_page(page)
+
+    context['commentData'] = comments
+
+
+    return render(request, 'm_comment_manage.html', context)
 
 
 def m_event_manage(request):

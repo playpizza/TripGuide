@@ -10,7 +10,7 @@
 <script type="text/javascript"> 
   var contents1Url = "{% url 'Board:list' %}";
   var board1Url = "{% url 'Board:detail' 1 %}";
-  var review1Url = "{% url 'Contents:detail' 1 %}";
+  var review1Url = ".";
 </script>
 {% endblock %}
 
@@ -22,7 +22,7 @@
     <p class="h2 m-3">통합검색</p>
   </div>
   <div class="d-flex align-items-center ms-3">
-    <form class="w-100 me-3 align-items-center flex-fill" action="{% url 'Contents:list' %}">
+    <form class="w-100 me-3 align-items-center flex-fill" action=".">
       <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
     </form>
   </div>

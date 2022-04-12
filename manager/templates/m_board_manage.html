@@ -18,19 +18,13 @@
     {% csrf_token %}
     <div class="container m-3 d-flex">
         <p class="flex-fill h4">게시글검색</p>
-        {% if onlyReport == 'on' %}
-        <input type="checkbox" name="onlyReport" id="onlyReport" class="form-check-input" checked> 
-        {% else %}
-        <input type="checkbox" name="onlyReport" id="onlyReport" class="form-check-input"> 
-        {% endif %}
-        <label for="onlyReport" class="form-check-label ms-3">미처리 신고만 표시</label>
     </div>
     <div class="d-flex align-items-center m-3">
         <input type="search" class="form-control" placeholder="Search..." aria-label="Search" name="searchWord" value="{{searchWord}}">
         <input class="btn btn-outline-primary ms-3" type="submit" value="확인">
     </div>
     <div class="d-none">
-        <input type="text" name="targetId" id="targetId" value="{{defaultTarget}}">
+        <input type="text" name="deleteId" id="deleteId" value="{{defaultDelete}}">
     </div>
 </form>
 <div class="container m-3">
@@ -42,7 +36,6 @@
                     <th scope="col">작성자</th>
                     <th scope="col">조회수</th>
                     <th scope="col">작성일</th>
-                    <th scope="col">신고여부</th>
                 </tr>
             </thead>
             <!-- TODO data받으면 for문으로 다시 작성 -->
@@ -56,14 +49,8 @@
                     <td>{{b.writer}}</td>
                     <td>{{b.hits}}</td>
                     <td>{{b.registered_date|date:'Y-m-d'}}</td>
-                    <!-- 임시로 아무거나 해둠 -->
-                    {% if b.hits == 1 %}
-                    <td><b class="text-danger">신고됨</b></td>
-                    {% else %}
-                    <td>X</td>
-                    {% endif %}
                     <td><button type="button" class="btn btn-outline-primary me-2" onclick="window.open(mBoardDetailUrls['{{b.id}}'], '_blank','width=#, height=#');">바로가기</button></td>
-                    <td><button type="button" class="btn btn-outline-primary me-2" onclick="document.getElementById('targetId').value = '{{b.id}}'; document.getElementById('frm').submit();">삭제</button></td>
+                    <td><button type="button" class="btn btn-outline-primary me-2" onclick="document.getElementById('deleteId').value = '{{b.id}}'; document.getElementById('frm').submit();">삭제</button></td>
                 </tr>
                 {% endfor %}
             </tbody>

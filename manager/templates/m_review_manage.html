@@ -5,10 +5,107 @@
 
 {% block title %} {% endblock %}
 
-{% block script %} {% endblock %}
+{% block script %}
+<script type="text/javascript">
+    var mBoardDetailUrls = {}
+</script>
+{% endblock %}
 
 
 
 {% block contents %}
+<form class="w-100 me-3 align-items-center flex-fill" action="." method="POST" id="frm">
+    {% csrf_token %}
+    <div class="container m-3 d-flex">
+        <p class="flex-fill h4">리뷰검색</p>
+    </div>
+    <div class="d-flex align-items-center m-3">
+        <select name="viewType" class="form-select">
+            {% if viewType == 'T' %}
+            <option value="T" selected>여행지</option>
+            {% else %}
+            <option value="T">여행지</option>
+            {% endif %}
+            {% if viewType == 'R' %}
+            <option value="R" selected>식당</option>
+            {% else %}
+            <option value="R">식당</option>
+            {% endif %}
+            {% if viewType == 'H' %}
+            <option value="H" selected>숙소</option>
+            {% else %}
+            <option value="H">숙소</option>
+            {% endif %}
+            {% if viewType == 'F' %}
+            <option value="F" selected>축체</option>
+            {% else %}
+            <option value="F">축제</option>
+            {% endif %}
+        </select>
+        <input type="search" class="form-control" placeholder="Search..." aria-label="Search" name="searchWord" value="{{searchWord}}">
+        <input class="btn btn-outline-primary ms-3" type="submit" value="확인">
+    </div>
+    <div class="d-none">
+        <input type="text" name="deleteId" id="deleteId" value="{{defaultDelete}}">
+    </div>
+</form>
+<div class="container m-3">
+    <div class="bd-example flex-fill m-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">제목</th>
+                    <th scope="col">평점</th>
+                    <th scope="col">작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in reviewData %}
+                <script>
+                    mDetailUrls['{{r.id}}'] = ".";
+                </script>
+                <tr>
+                    <th scope="row">{{r.title}}</th>
+                    <td>{{r.grade}}</td>
+                    <td>{{r.reg_date|date:'Y-m-d'}}</td>
+                    <td><button type="button" class="btn btn-outline-primary me-2" onclick="window.open(mBoardDetailUrls['{{r.id}}'], '_blank','width=#, height=#');">바로가기</button></td>
+                    <td><button type="button" class="btn btn-outline-primary me-2" onclick="document.getElementById('deleteId').value = '{{r.id}}'; document.getElementById('frm').submit();">삭제</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- pagination -->
+<div class="row mt-2">
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if userData.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?p={{userData.previous_page_number}}">이전으로</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">                    
+                    <a class="page-link disabled" href="#">이전으로</a>
+                </li>
+                {% endif %}
+                <li class="page-item active">
+                    <a class="page-link" href="#">{{userData.number}} / {{userData.paginator.num_pages }}</a>
+                </li>                
+                {% if userData.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?p={{userData.next_page_number}}">다음으로</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link disabled" href="#">다음으로</a>
+                </li>
+                {% endif %}
 
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- pagination -->
 {% endblock %}
