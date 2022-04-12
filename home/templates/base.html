@@ -10,6 +10,7 @@
       var loginUrl = "{% url 'account_login' %}";
       var joinUrl = "{% url 'account_signup' %}";
       var logoutUrl = "{% url 'account_logout' %}";
+      var managerUrl = "{% url 'Manager:home'%}";
     </script>
     <link href="{% static 'bs/css/bootstrap.min.css' %}" rel="stylesheet">
     {% block link %} {% endblock %}
@@ -28,8 +29,11 @@
           </a>
           {% if user.is_authenticated %}
           <div class="col-md-3 text-end">
+            {% if user.is_authenticated and user.is_superuser%}
+            <button type="button" class="btn btn-outline-primary me-2" onclick="location.href = managerUrl;">Manager</button>
+            {% endif %}
             <button type="button" class="btn btn-outline-primary me-2" onclick="location.href = logoutUrl;">Logout</button>
-            <a href="{% url 'Member:info_detail' user.id %}"><button type="button" class="btn btn-primary">My</button></a>
+            <a href="{% url 'Member:info_detail' user.id %}"><button type="button" class="btn btn-outline-primary">My</button></a>
           </div>
           {% else %}
           <div class="col-md-3 text-end">
