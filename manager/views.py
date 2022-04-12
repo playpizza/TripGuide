@@ -930,6 +930,17 @@ def m_event_detail(request, id):
         contents = request.POST['contents']
         exp_date = request.POST['exp_date']
 
+        errorCheck = 0
+        if title == '' or len(title) > 127:
+            context['errors'] = '제목을 입력하세요.'
+            errorCheck = 1
+        elif contents == '':
+            context['errors'] = '내용을 입력하세요.'
+            errorCheck = 1
+        elif exp_date == '':
+            context['errors'] = '만료일을 입력하세요.'
+            errorCheck = 1
+
         # 생성
         if id==0:
             event = EventBoard()
@@ -941,6 +952,11 @@ def m_event_detail(request, id):
         event.title = title
         event.contents = contents
         event.exp_date = exp_date
+
+        if errorCheck == 1:
+            context['event'] = event
+            return render(request, 'm_event_detail.html', context)
+
         if request.FILES:
             if event.mainphoto:
                 os.remove(mainphoto.path)
@@ -990,6 +1006,7 @@ def m_ad_manage(request):
 def m_ad_detail(request, id):
     context = {
         'ad': None,
+        'defaultDelete': 'N',
     }
     # id=0이면 생성
     if request.method == 'POST':
@@ -1008,6 +1025,17 @@ def m_ad_detail(request, id):
         link = request.POST['link']
         contents = request.POST['contents']
         exp_date = request.POST['exp_date']
+        
+        errorCheck = 0
+        if title == '' or len(title) > 127:
+            context['errors'] = '제목을 입력하세요.'
+            errorCheck = 1
+        elif link == '':
+            context['errors'] = '링크을 입력하세요.'
+            errorCheck = 1
+        elif exp_date == '':
+            context['errors'] = '만료일을 입력하세요.'
+            errorCheck = 1
 
         # 생성
         if id==0:
@@ -1021,7 +1049,11 @@ def m_ad_detail(request, id):
         ad.link = link
         ad.contents = contents
         ad.exp_date = exp_date
-    
+        
+        if errorCheck == 1:
+            context['ad'] = ad
+            return render(request, 'm_ad_detail.html', context)
+
         if request.FILES:
             if ad.mainphoto:
                 os.remove(mainphoto.path)

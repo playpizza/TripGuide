@@ -50,15 +50,15 @@
     <div class="d-none">
         <input type="text" name="deleteCheck" id="deleteCheck" value="{{defaultDelete}}">
     </div>
+    {% if errors %}
+    <span class="text-danger">{{ errors }}</span>
+    {% endif %}
     <div class="m-3 d-flex">
         <input class="btn btn-outline-primary m-3" type="submit" value="작성/수정">
         <input class="btn btn-outline-primary m-3" value="삭제" onclick="document.getElementById('deleteCheck').value = 'Y'; document.getElementById('frm').submit();">
         <button type="button" class="btn btn-outline-primary m-3" onclick="location.href = mAdManageUrl;">뒤로가기</button>
         
     </div>
-    {% if errors %}
-    <span class="text-danger">{{ errors }}</span>
-    {% endif %}
 </form>
 
 {% endblock %}
