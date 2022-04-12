@@ -187,11 +187,13 @@ def comment_write(request):
 
 def board_comment_delete(request):
     if request.method == "POST":
-        id = request.POST['c_id']
-        comment = Comment.objects.get(id=id)
+        c_id = request.POST['c_id']
+        b_id = request.POST['b_id']
+        comment = Comment.objects.get(id=c_id)
+        board = Board.objects.get(id=b_id)
         comment.delete()
 
-        return render(request, './c_deleteOK.html')
+        return render(request, './c_deleteOK.html', {'board': board})
 
 
 

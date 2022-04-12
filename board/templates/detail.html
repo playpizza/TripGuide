@@ -33,10 +33,15 @@
         {% if comment.post_id == board.id %}
         <tr class="text-center">
             <div class="comment">
+                <form action="../../comment/delete/" name="comment_delete" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="c_id" value="{{ comment.id }}">
+                    <input type="hidden" name="b_id" value="{{ board.id }}">
+                    <button type="button" class="btn btn-outline-dark float-end" onclick="Comment_chkDelete()">삭제</button>
+                </form>
                 <div class="writer">작성자: {{ comment.nickname }}</div>
                 <div class="content">내용: {{ comment.content }}</div>
                 <br>
-                <button type="button" class="btn btn-outline-dark float-end" onclick="Comment_chkDelete()">삭제</button>
             </div>
         </tr>
         {% endif %}
@@ -78,10 +83,6 @@
 <form action="../../delete/" name="board_delete" method="POST">
     {% csrf_token %}
     <input type="hidden" name="b_id" value="{{ board.id }}">
-</form>
-<form action="../../comment/delete/" name="comment_delete" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="c_id" value="{{ comment.id }}">
 </form>
 
 {% endblock %}
