@@ -48,22 +48,6 @@ def member_info_update(request, user_id):
 
         return render(request, 'info/update.html', {'profile_user': profile_user, "form": form})
 
-
-def member_qusetion_list(request):
-    # TODO
-    pass
-
-
-def member_qusetion_detail(request, id):
-    # TODO
-    pass
-
-
-def member_qusetion_write(request):
-    # TODO
-    pass
-
-
 def member_withdrawal(request):
     if request.method == "POST":
         id = request.POST['id']

@@ -36,8 +36,13 @@ urlpatterns = [
     # path('count/', include('count.urls')),
     path('password/change/', CustomPasswordChangeView.as_view(), name='account_change_password'),
     path(
+        "confirm-email/",
+        TemplateView.as_view(template_name='account/email_confirmation.html'), 
+        name='account_email_confirmation',
+        ),
+    path(
         'email-confirmation-done/',
-        TemplateView.as_view(template_name='email_confirmation_done.html'),
+        TemplateView.as_view(template_name='account/email_confirmation_done.html'),
         name='account_email_confirmation_done',
     ),
     path('', include('allauth.urls')), # django-allauth 라이브러리 관련된 path는 "반드시" 가장 아래쪽에 있도록 해주세요.

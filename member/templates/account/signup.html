@@ -51,25 +51,25 @@
         {% endfor %}
       </div>
       <div>
-        {{ form.address|add_class:"cp-input"|attr:"placeholder:주소"|add_error_class:"error"|attr:"null:True" }}
+        {{ form.address|add_class:"cp-input"|attr:"placeholder:주소(선택)"|add_error_class:"error"|attr:"null:True" }}
         {% for error in form.address.errors %}
           <div class="error-message"> {{ error }}</div>
         {% endfor %}
       </div>
       <div>
-        {{ form.mobile|add_class:"cp-input"|attr:"placeholder:폰번호(-까지 입력해주세요)"|add_error_class:"error" }}
+        {{ form.mobile|add_class:"cp-input"|attr:"placeholder:핸드폰 번호(-까지 입력해주세요)"|add_error_class:"error" }}
         {% for error in form.mobile.errors %}
           <div class="error-message"> {{ error }}</div>
         {% endfor %}
       </div>
       <div>
-        {{ form.gender|add_class:"cp-input"|attr:"placeholder:성별(남자면 M, 여자면 W, 그 이외는 U를 입력해주세요)"|add_error_class:"error"|attr:"blank:True" }}
+        {{ form.gender|add_class:"cp-input"|attr:"placeholder:성별(남자면 M, 여자면 W, 그 외는 U를 입력해주세요)(선택)"|add_error_class:"error"|attr:"blank:True" }}
         {% for error in form.gender.errors %}
           <div class="error-message"> {{ error }}</div>
         {% endfor %}
       </div>
       <div>
-        {{ form.age|add_class:"cp-input"|attr:"placeholder:나이"|add_error_class:"error"|attr:"blank:True" }}
+        {{ form.age|add_class:"cp-input"|attr:"placeholder:나이(선택)"|add_error_class:"error"|attr:"blank:True" }}
         {% for error in form.age.errors %}
           <div class="error-message"> {{ error }}</div>
         {% endfor %}

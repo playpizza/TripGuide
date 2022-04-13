@@ -13,7 +13,7 @@
         <main class="account">
         <h2>{{ profile_user.nickname }} 님의 정보 수정 페이지</h2>
 <hr>
-
+    <h6>※ 주소, 성별, 나이는 선택 입력입니다.</h6>
     <form action="{% url 'Member:info_update' profile_user.id %}" method="POST">
     {% csrf_token %}
     {% for field in form %}
@@ -44,6 +44,6 @@
             location.href = "{% url 'Member:info_detail' profile_user.id %}"
         }
     </script>
-</main>
-    </div>
+    </main>
+</div>
     {% endblock %}

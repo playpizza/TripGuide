@@ -5,7 +5,11 @@
 
 {% block title %} 유저 상세 정보 {% endblock %}
 
-{% block script %} {% endblock %}
+{% block script %} 
+<script type="text/javascript"> 
+    var myurls = {}
+</script>
+{% endblock %}
 
 
 {% block contents %}
@@ -99,7 +103,10 @@
                 </thead>
                 <tbody>
                 {% for w in writing %}
-                  <tr>
+                <script>
+                    myurls['{{w.id}}'] = "{% url 'Board:detail'  w.id %}"
+                </script>
+                  <tr onclick="location.href = myurls['{{w.id}}']">
                     <th scope="row">{{w.id}}</th>
                     <td>{{w.title}}</td>
                   </tr>
@@ -123,7 +130,10 @@
                 </thead>
                 <tbody>
                 {% for c in comment %}
-                  <tr>
+                <script>
+                    myurls['{{c.post.id}}'] = "{% url 'Board:detail'  c.post.id %}"
+                </script>
+                  <tr onclick="location.href = myurls['{{c.post.id}}']">
                     <th scope="row">{{c.post.title}}</th>
                     <td>{{c.content}}</td>
                   </tr>
