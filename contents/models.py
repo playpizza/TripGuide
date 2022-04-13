@@ -1,5 +1,6 @@
 from tabnanny import verbose
 from django.db import models
+from django.conf import settings
 
 class Restaurant(models.Model):
     r_api_id = models.IntegerField(verbose_name='식당api_id')
@@ -14,7 +15,7 @@ class Restaurant(models.Model):
         return self.r_api_id
 
 class R_bookmark(models.Model):
-    u_id = models.ForeignKey('member.User', on_delete=models.CASCADE, verbose_name='검색사용자')
+    u_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='검색사용자')
     r_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE, verbose_name='식당id')
 
     class Meta:
@@ -50,7 +51,7 @@ class Hotel(models.Model):
         return self.h_api_id
 
 class H_bookmark(models.Model):
-    u_id = models.ForeignKey('member.User', on_delete=models.CASCADE, verbose_name='검색사용자')
+    u_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='검색사용자')
     h_id = models.ForeignKey(Hotel, on_delete=models.CASCADE, verbose_name='숙소id')
 
     class Meta:
@@ -86,7 +87,7 @@ class Festival(models.Model):
         return self.f_api_id
 
 class F_bookmark(models.Model):
-    u_id = models.ForeignKey('member.User', on_delete=models.CASCADE, verbose_name='검색사용자')
+    u_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='검색사용자')
     f_id = models.ForeignKey(Festival, on_delete=models.CASCADE, verbose_name='축제id')
 
     class Meta:
@@ -122,7 +123,7 @@ class Travel(models.Model):
         return self.t_api_id
 
 class T_bookmark(models.Model):
-    u_id = models.ForeignKey('member.User', on_delete=models.CASCADE, verbose_name='검색사용자')
+    u_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='검색사용자')
     t_id = models.ForeignKey(Travel, on_delete=models.CASCADE, verbose_name='여행id')
 
     class Meta:
