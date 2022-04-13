@@ -27,15 +27,18 @@ def home(request):
 
 
     # 광고
-    try:
-        adAll = AdBoard.objects.all()
-        if adAll:
-            ad = random.choice(adAll)
-            context['ad'] = ad
-    except ObjectDoesNotExist:
-        pass
+    context['ad'] = getAd()
 
     
 
 
     return render(request, 'home.html', context)
+
+def getAd():
+    try:
+        adAll = AdBoard.objects.all()
+        if adAll:
+            ad = random.choice(adAll)
+    except ObjectDoesNotExist:
+        ad = None
+    return ad

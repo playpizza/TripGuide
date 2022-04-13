@@ -15,7 +15,7 @@
         <div class="form-group">
             <div class="m-3">
                 <label for="title" class="form-label">제목</label>
-                <input type="text" class="form-control" id="title" value="{{event.title}}" readonly />
+                <input type="text" class="form-control" id="title" value="{{event.title}}" readonly >
             </div>
             <div class="m-3 text-center">
                 {% if event.mainphoto %}
@@ -23,11 +23,11 @@
                 {% else %}
                 <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
                 role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>{{event.title}}</title>
-                <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                    <title>{{event.title}}</title>
+                    <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
                 </svg>
+                {% endif %}
             </div>
-            {% endif %}
             <div class="m-3">
                 <label for="contents" class="form-label">내용</label>
                 <textarea class="form-control" id="contents" readonly>{{event.contents}}</textarea>
