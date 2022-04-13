@@ -234,8 +234,27 @@ def m_user_manage(request):
 
 
 def m_user_detail(request, id):
-    # TODO
-    pass
+    context = {
+        'ban_end_date': datetime.today().strftime("%Y-%m-%d"),
+    }
+    u = User.objects.get(id=id)
+    writing = Board.objects.filter(writer__id=id)
+    comment = Comment.objects.filter(writer__id=id)
+
+    context['u'] = u
+    context['writing'] = writing
+    context['comment'] = comment
+
+    if request.method == 'POST':
+        if request.POST['ban']:
+            if u.is_banned == 0:
+                u.is_banned = 1
+            else:
+                u.is_banned = 0
+            u.save()
+
+    
+    return render(request, 'm_user_detail.html', context)
 
 
 def m_contents_stats(request):

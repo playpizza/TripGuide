@@ -3,12 +3,145 @@
 
 {% block link %} {% endblock %}
 
-{% block title %} {% endblock %}
+{% block title %} 유저 상세 정보 {% endblock %}
 
 {% block script %} {% endblock %}
 
 
-
 {% block contents %}
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">필드</th>
+        <th scope="col">{{u.nickname}}님의 정보</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">아이디</th>
+        <td>{{u.username}}</td>
+      </tr>
+      <tr>
+        <th scope="row">이름</th>
+        <td>{{u.name}}</td>
+      </tr>
+      <tr>
+        <th scope="row">닉네임</th>
+        <td>{{u.nickname}}</td>
+      </tr>
+      <tr>
+        <th scope="row">이메일</th>
+        <td>{{u.email}}</td>
+      </tr>
+      <tr>
+        <th scope="row">주소</th>
+        <td>{{u.address}}</td>
+      </tr>
+      <tr>
+        <th scope="row">핸드폰</th>
+        <td>{{u.mobile}}</td>
+      </tr>
+      <tr>
+        <th scope="row">성별</th>
+        <td>{{u.gender}}</td>
+      </tr>
+      <tr>
+        <th scope="row">나이</th>
+        <td>{{u.age}}</td>
+      </tr>
+      <tr>
+        <th scope="row">소셜로그인 도메인</th>
+        <td>{{u.is_social_login}}</td>
+      </tr>
+      <tr>
+        <th scope="row">가입일</th>
+        <td>{{u.date_joined}}</td>
+      </tr>
+      <tr>
+        <th scope="row">마지막 로그인 시간</th>
+        <td>{{u.last_login}}</td>
+      </tr>
+      <tr>
+        <th scope="row">정지 여부</th>
+        <td>
+            {% if u.is_banned %}
+            정지된 유저
+            {% else %}
+            정상 유저
+            {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">정지 기한</th>
+        <td> {{ u.ban_end_date}}</td>
+      </tr>
+
+
+      
+    </tbody>
+</table>
+
+<form class="w-100 me-3 align-items-center flex-fill" action="." method="POST">
+{% csrf_token %}
+<div class="row">
+    <div class="col">
+        해당 계정 정지 토글:
+        <input class="btn btn-outline-primary" type="submit" name="ban" value="확인">
+    </div>
+</div>
+</form>
+
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            해당 유저의 게시글
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">제목</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for w in writing %}
+                  <tr>
+                    <th scope="row">{{w.id}}</th>
+                    <td>{{w.title}}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col text-truncate">
+            해당 유저의 댓글
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">해당 게시글 제목</th>
+                    <th scope="col">내용</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for c in comment %}
+                  <tr>
+                    <th scope="row">{{c.post.title}}</th>
+                    <td>{{c.content}}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+
+
 
 {% endblock %}
