@@ -145,8 +145,8 @@ def board_update(request, id):
                 board.filename = upload_files.name
             else:
                 os.remove(board.upload_files.path)
-                board.upload_files = NULL
-                board.filename = NULL
+                board.upload_files = ''
+                board.filename = ''
         else:
             if request.FILES:
                 upload_files = request.FILES["upload_files"]

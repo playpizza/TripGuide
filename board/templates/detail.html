@@ -7,11 +7,13 @@
     <span class="float-end ms-4">조회수: {{ board.hits }}</span>
     <span class="float-end">좋아요 수: {{ board.like_count }}</span>
 </div>
+{% if user.is_authenticated %}
 <form action="/board/like_count/" class="float-end" method="POST">
     {% csrf_token %}
     <input type="hidden" name="board_id" value="{{ board.id }}">
     <input type="submit" class="btn btn-primary" style="padding:1px 3px;" value="좋아요" />
 </form>
+{% endif %}
 <br>
 <section>
     <table class="table table-sm table-hover">
