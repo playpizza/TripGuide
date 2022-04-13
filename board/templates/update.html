@@ -4,7 +4,7 @@
         <h2>수정</h2>
         <hr>
 
-        <form action="/board/update/{{ board.id }}/" method="POST">
+        <form action="/board/update/{{ board.id }}/" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="name">작성자:</label>

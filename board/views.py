@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import os
 import json
 from django.urls import reverse_lazy
@@ -134,20 +135,28 @@ def board_update(request, id):
         title = request.POST['title']
         content = request.POST['content']
         user_id = request.user
+        board = Board.objects.get(id=id)
 
-        if request.FILES:
-            board = Board.objects.get(id=id)
-            upload_files = request.FILES["upload_files"]
-            board.title = title
-            board.content = content
-            board.write = user_id
-            board.upload_files = upload_files
-            board.filename = upload_files.name
+        if board.upload_files:
+            if request.FILES:
+                os.remove(board.upload_files.path)
+                upload_files = request.FILES["upload_files"]
+                board.upload_files = upload_files
+                board.filename = upload_files.name
+            else:
+                os.remove(board.upload_files.path)
+                board.upload_files = NULL
+                board.filename = NULL
         else:
-            board = Board.objects.get(id=id)
-            board.title = title
-            board.content = content
-            board.write = user_id
+            if request.FILES:
+                upload_files = request.FILES["upload_files"]
+                board.upload_files = upload_files
+                board.filename = upload_files.name
+
+
+        board.title = title
+        board.content = content
+        board.write = user_id
 
         board.save()
 
