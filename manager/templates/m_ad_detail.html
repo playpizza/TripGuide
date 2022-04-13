@@ -5,10 +5,60 @@
 
 {% block title %} {% endblock %}
 
-{% block script %} {% endblock %}
+{% block script %} 
+<script type="text/javascript">
+    var mAdManageUrl = "{% url 'Manager:adManage' %}";
+</script>
+{% endblock %}
 
 
 
 {% block contents %}
+<div class="container m-3 d-flex">
+    <p class="flex-fill h4">광고 상세정보</p>
+</div>
+<div class="container m-3 d-flex">
+    <p class="flex-fill m-3">조회수 - {{ad.view_cnt}}</p>
+    <p class="flex-fill m-3">작성일 - {{ad.reg_date}}</p>
+</div>
+
+<form class="form-control" action="." method="POST" id="frm" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="m-3">
+        <label for="title" class="form-label"> 제목 : </label>
+        <input class="form-control" type="text" name="title" id="title" value="{{ad.title}}">
+        <label for="exp_date" class="form-label">만료일 </label>
+        <input type="date" name="exp_date" id="exp_date" class="form-control" value="{{ad.exp_date|date:'Y-m-d'}}">
+    </div>
+    <div class="m-3">
+        {% if ad.mainphoto %}
+        <img src="{{ad.mainphoto.url}}" class="img-thumbnail" alt=".">
+        {% endif %}
+    </div>
+    <div class="m-3">
+        <label for="link" class="form-label"> URL link : </label>
+        <input class="form-control" type="text" name="link" id="link" value="{{ad.link}}">
+    </div>
+    <div class="m-3">
+        <label for="contents" class="form-label"> 설명 : </label>
+        <textarea class="form-control" name="contents" id="texts">{{ad.contents}}</textarea>
+    </div>
+    <div class="m-3">
+        <label for="file" class="form-label">썸네일</label>
+        <input class="form-control form-control-sm" type="file" name="upload_files">
+    </div>
+    <div class="d-none">
+        <input type="text" name="deleteCheck" id="deleteCheck" value="{{defaultDelete}}">
+    </div>
+    {% if errors %}
+    <span class="text-danger">{{ errors }}</span>
+    {% endif %}
+    <div class="m-3 d-flex">
+        <input class="btn btn-outline-primary m-3" type="submit" value="작성/수정">
+        <input class="btn btn-outline-primary m-3" value="삭제" onclick="document.getElementById('deleteCheck').value = 'Y'; document.getElementById('frm').submit();">
+        <button type="button" class="btn btn-outline-primary m-3" onclick="location.href = mAdManageUrl;">뒤로가기</button>
+        
+    </div>
+</form>
 
 {% endblock %}

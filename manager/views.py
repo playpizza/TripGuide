@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta
+from multiprocessing import Event
 import os
+from django.conf import settings
 from dateutil.relativedelta import relativedelta
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from count.models import CountBoard
 from add.models import AdBoard
@@ -897,29 +899,193 @@ def m_comment_manage(request):
 
 def m_event_manage(request):
     context = {
-
+        'on_event': 0,
+        'event_view': 0,
+        'eventData': [],
     }
+
+    try:
+        context['event_view'] = CountBoard.objects.get(reg_date=datetime.today()).event_view_cnt
+    except ObjectDoesNotExist:
+        pass
+
+    try:
+        context['on_event'] = EventBoard.objects.filter(exp_date__gte = datetime.today()).count()
+    except ObjectDoesNotExist:
+        pass
+    
+    try:
+        all_events = EventBoard.objects.all().order_by('-reg_date')
+    except ObjectDoesNotExist:
+        all_events = []
+    
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_events, 20)
+    events = paginator.get_page(page)
+
+    context['eventData'] = events
     return render(request, 'm_event_manage.html', context)
 
 
 def m_event_detail(request, id):
     context = {
-        
+        'event': None,
+        'defaultDelete': 'N',
     }
+    # id=0이면 생성
+    if request.method == 'POST':
+        # 삭제
+        delete = request.POST.get('deleteCheck', 'N')
+        if delete == 'Y':
+            if id != 0:
+                event = EventBoard.objects.get(id=id)
+                if event.mainphoto:
+                    os.remove(event.mainphoto.path)
+                event.delete()
+            return redirect('Manager:eventManage')
+
+        # 폼검증
+        title = request.POST['title']
+        contents = request.POST['contents']
+        exp_date = request.POST['exp_date']
+
+        errorCheck = 0
+        if title == '' or len(title) > 127:
+            context['errors'] = '제목을 입력하세요.'
+            errorCheck = 1
+        elif contents == '':
+            context['errors'] = '내용을 입력하세요.'
+            errorCheck = 1
+        elif exp_date == '':
+            context['errors'] = '만료일을 입력하세요.'
+            errorCheck = 1
+
+        # 생성
+        if id==0:
+            event = EventBoard()
+        # 수정
+        else:
+            event = EventBoard.objects.get(id=id)
+            mainphoto = event.mainphoto
+    
+        event.title = title
+        event.contents = contents
+        event.exp_date = exp_date
+
+        if errorCheck == 1:
+            context['event'] = event
+            return render(request, 'm_event_detail.html', context)
+
+        if request.FILES:
+            if event.mainphoto:
+                os.remove(mainphoto.path)
+            upload_files = request.FILES["upload_files"]
+            event.mainphoto = upload_files
+            event.image_name = upload_files.name
+        event.save()
+        return redirect('Manager:eventManage')
+        
+    else:
+        if id!=0:
+            context['event'] = EventBoard.objects.get(id=id)
+
     return render(request, 'm_event_detail.html', context)
 
 
 def m_ad_manage(request):
     context = {
-        
+        'on_ad': 0,
+        'ad_view': 0,
+        'adData': [],
     }
+
+    try:
+        context['ad_view'] = CountBoard.objects.get(reg_date=datetime.today()).ad_view_cnt
+    except ObjectDoesNotExist:
+        pass
+
+    try:
+        context['on_ad'] = AdBoard.objects.filter(exp_date__gte = datetime.today()).count()
+    except ObjectDoesNotExist:
+        pass
+    
+    try:
+        all_ads = AdBoard.objects.all().order_by('-reg_date')
+    except ObjectDoesNotExist:
+        all_ads = []
+    
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_ads, 20)
+    ads = paginator.get_page(page)
+
+    context['adData'] = ads
     return render(request, 'm_ad_manage.html', context)
 
 
 def m_ad_detail(request, id):
     context = {
-        
+        'ad': None,
+        'defaultDelete': 'N',
     }
+    # id=0이면 생성
+    if request.method == 'POST':
+        # 삭제
+        delete = request.POST.get('deleteCheck', 'N')
+        if delete == 'Y':
+            if id != 0:
+                ad = AdBoard.objects.get(id=id)
+                if ad.mainphoto:
+                    os.remove(ad.mainphoto.path)
+                ad.delete()
+            return redirect('Manager:adManage')
+
+        # 폼검증
+        title = request.POST['title']
+        link = request.POST['link']
+        contents = request.POST['contents']
+        exp_date = request.POST['exp_date']
+        
+        errorCheck = 0
+        if title == '' or len(title) > 127:
+            context['errors'] = '제목을 입력하세요.'
+            errorCheck = 1
+        elif link == '':
+            context['errors'] = '링크을 입력하세요.'
+            errorCheck = 1
+        elif exp_date == '':
+            context['errors'] = '만료일을 입력하세요.'
+            errorCheck = 1
+
+        # 생성
+        if id==0:
+            ad = AdBoard()
+        # 수정
+        else:
+            ad = AdBoard.objects.get(id=id)
+            mainphoto = ad.mainphoto
+        
+        ad.title = title
+        ad.link = link
+        ad.contents = contents
+        ad.exp_date = exp_date
+        
+        if errorCheck == 1:
+            context['ad'] = ad
+            return render(request, 'm_ad_detail.html', context)
+
+        if request.FILES:
+            if ad.mainphoto:
+                os.remove(mainphoto.path)
+            upload_files = request.FILES["upload_files"]
+            ad.mainphoto = upload_files
+            ad.image_name = upload_files.name
+        ad.save()
+        return redirect('Manager:adManage')
+        
+    else:
+        if id!=0:
+            context['ad'] = AdBoard.objects.get(id=id)
+
     return render(request, 'm_ad_detail.html', context)
 
 
