@@ -7,7 +7,7 @@
 
 {% block script %}
 <script type="text/javascript"> 
-    var eventUrls = []
+    var eventUrls = {}
 </script>
 {% endblock %}
 
@@ -19,6 +19,9 @@
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-4 border-bottom">
     {% for event in events %}
+    <script>
+        eventUrls['{{event.id}}'] = "{% url 'Event:detail' event.id %}";
+    </script>
     <div class="col">
         <div class="card shadow-sm mt-3 mb-3">
             {% if event.mainphoto %}
@@ -34,7 +37,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         <script type="text/javascript"> eventUrls.unshift("{% url 'Event:detail' event.id %}") </script>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href=eventUrls[parseInt('{{event.id|add:-1}}')]">View</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href=eventUrls['{{event.id}}']">View</button>
                     </div>
                     <small class="text-muted">{{event.exp_date}} 까지</small>
                 </div>
