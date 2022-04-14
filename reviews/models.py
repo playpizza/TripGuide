@@ -14,7 +14,7 @@ class R_review(models.Model):
     # t_relation_review = models.ManyToManyField('T_review', through='Relation_rt', through_fields=('R_review', 'T_review'), verbose_name='관련후기', blank=True)
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='식당후기등록시간')
     up_date = models.DateTimeField(auto_now_add=True, verbose_name='식당후기최신화시간')
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='식당후기작성자')
+    # writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, verbose_name='식당후기작성자')
 
     class Meta:
         db_table = 'r_review'

@@ -7,7 +7,7 @@
                 <tr>
                     <th>#</th>
                     <th>제목</th>
-                    <th>아이디</th>
+                    <th>점수</th>
                     <th>일시</th>
                 </tr>
             </thead>
@@ -16,8 +16,8 @@
                 <tr>
                     <td>{{r_review.id}}</td>
                     <td>{{r_review.title}}</td>
-                    <td>{{r_review.writer}}</td>
-                    <td>{{r_review.registered_dttm|date:"Y-m-d H:i:s"}}</td>
+                    <td>{{r_review.grade}}</td>
+                    <td>{{r_review.reg_date|date:"Y-m-d H:i:s"}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
