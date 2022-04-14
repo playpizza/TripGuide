@@ -39,7 +39,7 @@
                     <th scope="col">유저닉네임</th>
                     <th scope="col">유저이름</th>
                     <th scope="col">가입일</th>
-                    <th scope="col">신고여부</th>
+                    <th scope="col">정지</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,9 +53,9 @@
                     <td>{{u.name}}</td>
                     <td>{{u.date_joined|date:'Y-m-d'}}</td>
                     {% if u.is_banned == 1 %}
-                    <td><b class="text-danger">신고됨</b></td>
+                    <td><b class="text-danger">정지</b></td>
                     {% else %}
-                    <td>X</td>
+                    <td>허가</td>
                     {% endif %}
                 </tr>
                 {% endfor %}

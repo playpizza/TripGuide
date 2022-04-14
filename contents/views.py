@@ -1,3 +1,4 @@
+from re import X
 import urllib
 from django.shortcuts import  render
 from contents.models import Content
@@ -14,18 +15,25 @@ def get_contents(request):
 
         response = requests.get(url)
         data = response.json()
+        print(data)
         contents = data['response']['body']['items']['item']
 
         for i in contents:
-            content_data = Content(
-                title = i['title'],
-                addr1 = i['addr1'],
-                firstimage = i['firstimage']
-            )
+            try:
+                content_data = Content(
+                    title = i['title'],
+                    addr1 = i['addr1'],
+                    firstimage = i['firstimage']
+                )
+            except KeyError:
+                content_data = Content(
+                    title = i['title'],
+                    addr1 = i['addr1'],
+                )
             content_data.save()
-            all_contents = Content.objects.all().order_by('-id')
+        all_contents = Content.objects.all().order_by('-id')
 
-    return render (request, 'content.html', { "all_contents": all_contents})
+    return render (request, 'get_content.html', { "all_contents": all_contents })
 
 def content_detail(request, id):
     content = Content.objects.get(id = id)

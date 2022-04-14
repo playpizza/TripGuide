@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
-{% block content %}
+{% block contents %}
   <div class = "container">
     <div class = "text-center container">
       <br>
@@ -25,10 +25,9 @@
             <img class="card-img-top" src="{{ content.firstimage }}" alt="Card image cap">
             <div class="card-body text-center">
               <p class="card-title">{{ content.title }}</p>
-              <hr>
-              <p class="card-text">{{ content.add1 }}</p>
-              <a href="{{content.id}}"
-              ><input
+              <p class="card-text">{{ content.addr1 }}</p>
+              <a href="{% url 'Contents:detail' content.id %}">
+                <input
                 type="submit"
                 value="Learn More"
                 class="btn btn-danger btn-sm"

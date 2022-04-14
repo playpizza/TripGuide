@@ -36,24 +36,24 @@
           {% if user.is_authenticated %}
           <div class="col-md-6 text-end">
             {% if user.is_authenticated and user.is_superuser%}
-            <button type="button" class="btn btn-outline-primary me-2" onclick="location.href = managerUrl;">Manager</button>
+            <button type="button" class="btn btn-outline-primary me-2 text-warning btn-outline-warning text-muted" onclick="location.href = managerUrl;">Manager</button>
             {% endif %}
-            <button type="button" class="btn btn-outline-primary me-2" onclick="location.href = logoutUrl;">Logout</button>
-            <a href="{% url 'Member:info_detail' user.id %}"><button type="button" class="btn btn-outline-primary">My</button></a>
+            <button type="button" class="btn btn-outline-primary me-2 text-warning btn-outline-warning text-muted" onclick="location.href = logoutUrl;">Logout</button>
+            <a href="{% url 'Member:info_detail' user.id %}"><button type="button" class="btn btn-outline-primary me-2 text-warning btn-outline-warning text-muted">My</button></a>
           </div>
           {% else %}
           <div class="col-md-3 text-end">
-            <button type="button" class="btn btn-outline-primary me-2" onclick="location.href = loginUrl;">Login</button>
-            <button type="button" class="btn btn-primary" onclick="location.href = joinUrl;">Sign-up</button>
+            <button type="button" class="btn btn-outline-primary me-2 text-warning btn-outline-warning text-muted" onclick="location.href = loginUrl;">Login</button>
+            <button type="button" class="btn text-light btn-primary bg-warning btn-outline-warning" onclick="location.href = joinUrl;">Sign-up</button>
           </div>
           {% endif %}
         </header>
         <header class="d-flex justify-content-left border-bottom py-3">
             <ul class="nav nav-pills">
-              <li class="nav-item"><a href="{% url 'home' %}" class="nav-link active" aria-current="page">홈</a></li>
-              <li class="nav-item"><a href="." class="nav-link">컨텐츠</a></li>
-              <li class="nav-item"><a href="{% url 'Board:list' %}" class="nav-link">게시판</a></li>
-              <li class="nav-item"><a href="{% url 'Event:list' %}" class="nav-link">이벤트</a></li>
+              <li class="nav-item"><a href="{% url 'home' %}" class="nav-link active bg-warning" aria-current="page">홈</a></li>
+              <li class="nav-item"><a href="{% url 'Contents:get_contents' %}" class="nav-link text-warning">컨텐츠</a></li>
+              <li class="nav-item"><a href="{% url 'Board:list' %}" class="nav-link text-warning">게시판</a></li>
+              <li class="nav-item"><a href="{% url 'Event:list' %}" class="nav-link text-warning">이벤트</a></li>
             </ul>
         </header>
     </div>
