@@ -12,3 +12,9 @@ class ReviewForm(forms.Form):
             'required' : '내용을 입력해주세요'
         },
         widget=forms.Textarea, label="내용")
+    
+    grade = forms.IntegerField(
+        error_messages={
+            'required' : '점수를 입력해주세요'
+        },
+        label="점수") 
