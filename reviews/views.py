@@ -1,19 +1,19 @@
 from django.shortcuts import redirect, render
 from .models import F_review, H_review, R_review, T_review
 from .forms import ReviewForm
-# from member.models import User
+from member.models import User
 
 def review_write(request):
     if request.method == "POST":
         form = ReviewForm(request.POST)  
         if form.is_valid():
-            # member_id = request.session.get('member') 
-            # member = User.objects.get(pk=member_id)
+            user_id = request.user
+            user = User.objects.get(pk=user_id)
 
             review = R_review()  
             review.title = form.cleaned_data['title']
             review.content = form.cleaned_data['content']
-            # review.writer = member
+            review.writer = user
             review.save() 
            
             return redirect('/review/list/')
