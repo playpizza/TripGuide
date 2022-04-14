@@ -8,12 +8,13 @@ def review_write(request):
         form = ReviewForm(request.POST)  
         if form.is_valid():
             user_id = request.user
-            user = User.objects.get(pk=user_id)
+            # user = User.objects.get(pk=user_id)
 
             review = R_review()  
             review.title = form.cleaned_data['title']
             review.content = form.cleaned_data['content']
-            review.writer = user
+            review.grade = form.cleaned_data['grade']
+            review.writer = user_id
             review.save() 
            
             return redirect('/review/list/')
