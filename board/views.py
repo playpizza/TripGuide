@@ -68,6 +68,7 @@ class BoardListView(ListView):
 
         context['type'] = search_type
         context['ad'] = getAd()
+        context['now'] = 'board'
 
         return context
 
@@ -120,6 +121,7 @@ def board_detail(request, id):
             'board': board,
             'comments': comment_list,
             'ad': getAd(),
+            'now' : 'board'
         }
     except Board.DoesNotExist:
         raise Http404('게시글을 찾을수 없습니다')
@@ -226,11 +228,8 @@ def board_comment_delete(request):
 
 
 def like_count(request):
-    count_like = Board_hits.objects.get()
     id = request.POST['board_id']
     board = Board.objects.get(id=id)
-
-    
 
     board.like_count += 1
     board.save()
