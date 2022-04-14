@@ -1,15 +1,20 @@
-{% extends "base.html" %}
+
 {% load static %}
 {% load widget_tweaks %}
 
-{% block link %}
-  <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'styles/theme.css' %}">
-{% endblock %}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block title %}회원가입{% endblock title %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/theme.css' %}">
 
-{% block contents %}
+  <title>회원가입</title>
+
+</head>
+<body>
 <div class="account-background">
   <main class="account">
     <div class="title">
@@ -82,4 +87,5 @@
     </div>
   </main>
 </div>
-{% endblock %}
+</body>
+</html>

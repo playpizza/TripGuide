@@ -1,16 +1,22 @@
-{% extends "base.html" %}
+
 {% load static %}
 {% load widget_tweaks %}
 {% load socialaccount %}
 
-{% block link %}
-  <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'styles/theme.css' %}">
-{% endblock %}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/theme.css' %}">
 
-{% block title %}로그인{% endblock title %}
 
-{% block contents %}
+<title>로그인</title>
+</head>
+
+<body>
 <div class="account-background">
   <main class="account">
     <div class="title">
@@ -52,4 +58,5 @@
     </div>
   </main>
 </div>
-{% endblock %}
+</body>
+</html>
