@@ -12,6 +12,7 @@ def event_list(request):
     all_events = EventBoard.objects.all().order_by('-id')
     context['events'] = all_events
     context['ad'] = getAd()
+    context['now'] = 'event'
     return render(request, 'event_list.html', context)
 
 
@@ -36,5 +37,6 @@ def event_detail(request, id):
     
     context['event'] = event
     context['ad'] = getAd()
+    context['now'] = 'event'
 
     return render(request, 'event_detail.html', context)

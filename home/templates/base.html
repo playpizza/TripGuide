@@ -57,10 +57,26 @@
         </header>
         <header class="d-flex justify-content-left border-bottom py-3">
             <ul class="nav nav-pills">
+              {% if now == 'home' %}
               <li class="nav-item"><a href="{% url 'home' %}" class="nav-link active bg-warning" aria-current="page">홈</a></li>
+              {% else %}
+              <li class="nav-item"><a href="{% url 'home' %}" class="nav-link text-warning">홈</a></li>
+              {% endif %}
+              {% if now == 'contents' %}
+              <li class="nav-item"><a href="{% url 'Contents:get_contents' %}" class="nav-link active bg-warning" aria-current="page">컨텐츠</a></li>
+              {% else %}
               <li class="nav-item"><a href="{% url 'Contents:get_contents' %}" class="nav-link text-warning">컨텐츠</a></li>
+              {% endif %}
+              {% if now == 'board' %}
+              <li class="nav-item"><a href="{% url 'Board:list' %}" class="nav-link active bg-warning" aria-current="page">게시판</a></li>
+              {% else %}
               <li class="nav-item"><a href="{% url 'Board:list' %}" class="nav-link text-warning">게시판</a></li>
+              {% endif %}
+              {% if now == 'event' %}
+              <li class="nav-item"><a href="{% url 'Event:list' %}" class="nav-link active bg-warning" aria-current="page">이벤트</a></li>
+              {% else %}
               <li class="nav-item"><a href="{% url 'Event:list' %}" class="nav-link text-warning">이벤트</a></li>
+              {% endif %}
             </ul>
         </header>
     </div>

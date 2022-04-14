@@ -29,6 +29,7 @@ def home(request):
     # 광고
     context['ad'] = getAd()
 
+    context['now'] = 'home'
     
 
 
