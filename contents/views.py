@@ -23,7 +23,9 @@ def get_contents(request):
                 content_data = Content(
                     title = i['title'],
                     addr1 = i['addr1'],
-                    firstimage = i['firstimage']
+                    firstimage = i['firstimage'],
+                    mapx = i['mapx'],
+                    mapy = i['mapy']
                 )
             except KeyError:
                 content_data = Content(

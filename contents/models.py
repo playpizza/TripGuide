@@ -150,6 +150,8 @@ class Content(models.Model):
     title = models.CharField(max_length=100, blank = True, null = True)
     addr1 = models.CharField(max_length=100, blank = True, null = True)
     firstimage = models.CharField(max_length=100, blank = True, null = True)
+    mapx = models.CharField(max_length=100, blank = True, null = True)
+    mapy = models.CharField(max_length=100, blank = True, null = True)
 
     def __str__(self):
         return self.title

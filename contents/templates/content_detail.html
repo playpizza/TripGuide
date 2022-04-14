@@ -2,21 +2,46 @@
 {% load static %}
 {% block contents %}
 
-<div class = "container"> 
-    <br><br>
-    <div class="row"> 
-        <div class="col-md-5">
-          <br>
-          <img class="img-fluid" src="{{ content.firstimage }}" alt="" style = "width: 90%;">
-          <br><br>
-          <h3 class="card-title text-center ">{{ content.title }}</h3>
-        </div> 
-        <div class="col-md-7 shadow-lg p-3 mb-5 bg-white rounded">
-          <h1 class="my-3">Description</h1>
-          <p class = "lead">{{ content.addr1 }}</p>
-          <h1 class="my-3">Details</h1>
-        </div>
+<div class="container">
+  <br><br>
+  <div class="row">
+    <div class="col-md-5">
+      <br>
+      <img class="img-fluid" src="{{ content.firstimage }}" alt="" style="width: 90%;">
+      <br><br>
+      <h3 class="card-title text-center ">{{ content.title }}</h3>
     </div>
+    <div id="map" class="col-md-7 shadow-lg p-3 mb-5 mt-4"></div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4bd1c9cfe0bf4f658ac8bec5478ed8a4&libraries=services"></script>
+    <script>
+      var mapy = "{{ content.mapy }}";
+      var mapx = "{{ content.mapx }}";
+
+      var mapContainer = document.getElementById('map'), 
+        mapOption = {
+          center: new kakao.maps.LatLng(mapy, mapx), 
+          level: 3 
+        };
+      
+      var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+      var markerPosition  = new kakao.maps.LatLng(mapy, mapx);
+
+      var marker = new kakao.maps.Marker({
+        position: markerPosition
+      });
+
+      marker.setMap(map);
+    </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12 shadow-lg p-3 mb-5 mt-4 bg-white rounded">
+      <h1 class="my-3">주소</h1>
+      <p class="lead">{{ content.addr1 }}</p>
+      <p class="lead">{{ content.mapx }}</p>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
