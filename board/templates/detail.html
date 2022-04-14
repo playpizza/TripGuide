@@ -11,7 +11,7 @@
 <form action="/board/like_count/" class="float-end" method="POST">
     {% csrf_token %}
     <input type="hidden" name="board_id" value="{{ board.id }}">
-    <input type="submit" class="btn btn-primary" style="padding:1px 3px;" value="좋아요" />
+    <input type="submit" class="btn bg-warning" style="padding:1px 3px; color: white;" value="좋아요" />
 </form>
 {% endif %}
 <br>
@@ -67,10 +67,10 @@
             </div>
         </tbody>
     </table>
-    <a class="btn btn-outline-dark" href="../../list">목록</a>
+    <a class="btn bg-warning" style="color: white;" href="../../list">목록</a>
     {% if user == board.writer %}
-    <a class="btn btn-outline-dark" href="../../update/{{ board.id }}">수정</a>
-    <button type="button" class="btn btn-outline-dark" onclick="Board_chkDelete()">삭제</button>
+    <a class="btn bg-warning" style="color: white;" href="../../update/{{ board.id }}">수정</a>
+    <button type="button" class="btn bg-warning" style="color: white;" onclick="Board_chkDelete()">삭제</button>
     {% endif %}
 </section>
 
