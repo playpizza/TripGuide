@@ -19,14 +19,14 @@
     </div> 
     <br><br>
     <div class="row">
-      {% for content in all_contents %}
+      {% for content_data in all_contents %}
         <div class="col-md-4 col-sm-6 col-lg-3">
           <div class="card">
-            <img class="card-img-top" src="{{ content.firstimage }}" alt="Card image cap">
+            <img class="card-img-top" src="{{ content_data.firstimage }}" alt="Card image cap">
             <div class="card-body text-center">
-              <p class="card-title">{{ content.title }}</p>
-              <p class="card-text">{{ content.addr1 }}</p>
-              <a href="{% url 'Contents:detail' content.id %}">
+              <p class="card-title">{{ content_data.title }}</p>
+              <p class="card-text">{{ content_data.addr1 }}</p>
+              <a href="{% url 'Contents:detail' content_data.id %}">
                 <input
                 type="submit"
                 value="Learn More"

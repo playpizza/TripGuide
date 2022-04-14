@@ -5,7 +5,7 @@ from contents.models import Content
 import requests
 
 def get_contents(request):
-    all_contents = {}
+    all_contents = []
     if 'keyword' in request.GET:
         keyword = request.GET['keyword']
         keyword = urllib.parse.quote(keyword)
@@ -20,20 +20,20 @@ def get_contents(request):
 
         for i in contents:
             try:
-                content_data = Content(
-                    title = i['title'],
-                    addr1 = i['addr1'],
-                    firstimage = i['firstimage']
-                )
+                content_data = {
+                    'title' : i['title'],
+                    'addr1' : i['addr1'],
+                    'firstimage' : str(i['firstimage'])
+                }
             except KeyError:
-                content_data = Content(
-                    title = i['title'],
-                    addr1 = i['addr1'],
-                )
-            content_data.save()
-        all_contents = Content.objects.all().order_by('-id')
-
-    return render (request, 'get_content.html', { "all_contents": all_contents })
+                content_data = {
+                    'title' : i['title'],
+                    'addr1' : i['addr1'],
+                }
+                
+            all_contents.append(content_data)
+        
+    return render (request, 'get_content.html', {'all_contents': all_contents})
 
 def content_detail(request, id):
     content = Content.objects.get(id = id)
