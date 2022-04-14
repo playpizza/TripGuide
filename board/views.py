@@ -67,6 +67,7 @@ class BoardListView(ListView):
             context['q'] = search_keyword
 
         context['type'] = search_type
+        context['ad'] = getAd()
 
         return context
 
@@ -119,6 +120,7 @@ def board_detail(request, id):
         context = {
             'board': board,
             'comments': comment_list,
+            'ad': getAd(),
         }
     except Board.DoesNotExist:
         raise Http404('게시글을 찾을수 없습니다')
