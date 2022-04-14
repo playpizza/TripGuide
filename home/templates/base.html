@@ -73,19 +73,14 @@
             <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
               <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
             </a>
-            <span class="text-muted">© 2021 Company, Inc</span>
+            <span class="text-muted">© 2022 K-digital, Django</span>
           </div>
       
-          <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-            <li class="ms-3"><a class="text-muted" href="#">트위터<svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-            <li class="ms-3"><a class="text-muted" href="#">인스타<svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-            <li class="ms-3"><a class="text-muted" href="#">페이스북<svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
-          </ul>
         </footer>
     </div>
 
     <!-- add -->
-    <div class="container position-fixed" style="top: 200px; right: 50px; width: 120px; height: 320px; ">
+    <div class="container position-fixed d-none d-xl-block" style="top: 200px; right: 50px; width: 120px; height: 320px; ">
       {% if ad.mainphoto %}
       <img src="{{ad.mainphoto.url}}" alt="ad" width="100%" class="img-thumbnail" onclick="location.href=adUrl" style='cursor:pointer'>
       {% else %}
