@@ -39,6 +39,8 @@ def getAd():
         adAll = AdBoard.objects.all()
         if adAll:
             ad = random.choice(adAll)
+        else:
+            ad = ""
     except ObjectDoesNotExist:
-        ad = None
+        ad = ""
     return ad
