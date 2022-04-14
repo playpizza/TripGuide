@@ -17,4 +17,4 @@ class ReviewForm(forms.Form):
         error_messages={
             'required' : '점수를 입력해주세요'
         },
-        max_length=2, label="점수") 
+        label="점수") 
