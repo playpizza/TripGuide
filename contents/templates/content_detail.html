@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+<div class = "container"> 
+    <br><br>
+    <div class="row"> 
+        <div class="col-md-5">
+          <br>
+          <img class="img-fluid" src="{{ content.firstimage }}" alt="" style = "width: 90%;">
+          <br><br>
+          <h3 class="card-title text-center ">{{ content.title }}</h3>
+        </div> 
+        <div class="col-md-7 shadow-lg p-3 mb-5 bg-white rounded">
+          <h1 class="my-3">Description</h1>
+          <p class = "lead">{{ content.add1 }}</p>
+          <h1 class="my-3">Details</h1>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
