@@ -13,7 +13,7 @@
             </thead>
             <tbody class="text-dark">
                 {% for r_review in r_reviews %}
-                <tr>
+                <tr onclick="location.href='/reviews/detail/{{r_review.id}}/'">
                     <td>{{r_review.id}}</td>
                     <td>{{r_review.title}}</td>
                     <td>{{r_review.grade}}</td>
@@ -26,7 +26,7 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <a class="btn btn-primary" href="#">글쓰기</a>
+        <a class="btn btn-primary" href='/reviews/write/'>글쓰기</a>
     </div>
 </div>
 {% endblock %}
