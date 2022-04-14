@@ -11,8 +11,12 @@
       var joinUrl = "{% url 'account_signup' %}";
       var logoutUrl = "{% url 'account_logout' %}";
       var managerUrl = "{% url 'Manager:home'%}";
+      </script>
+    {% if ad %}
+    <script type="text/javascript"> 
       var adUrl = "{% url 'Add:add' ad.id %}";
     </script>
+    {% endif %}
     <link href="{% static 'bs/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'base.css' %}" rel="stylesheet">
     {% block link %} {% endblock %}
@@ -81,10 +85,12 @@
 
     <!-- add -->
     <div class="container position-fixed d-none d-xl-block" style="top: 200px; right: 50px; width: 120px; height: 320px; ">
+      {% if ad %}
       {% if ad.mainphoto %}
       <img src="{{ad.mainphoto.url}}" alt="ad" width="100%" class="img-thumbnail" onclick="location.href=adUrl" style='cursor:pointer'>
       {% else %}
       <p>광고</p>
+      {% endif %}
       {% endif %}
     </div>
 </body>
