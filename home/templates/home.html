@@ -8,9 +8,10 @@
 
 {% block script %}
 <script type="text/javascript">
-  var contentsUrl = "{% url 'Board:list' %}";
+  var contentsUrl = "{% url 'Contents:get_contents' %}";
   var boardListUrl = "{% url 'Board:list' %}";
   var reviewListUrl = "{% url 'Board:list' %}";
+  var contentsUrls = {};
   var boardUrls = {};
   var reviewUrls = {};
 </script>
@@ -24,8 +25,8 @@
     <p class="h2 m-3">통합검색</p>
   </div>
   <div class="d-flex align-items-center ms-3">
-    <form class="w-100 me-3 align-items-center flex-fill" action=".">
-      <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+    <form method="GET" class="w-100 me-3 align-items-center flex-fill" action="{% url 'Contents:get_contents' %}">
+      <input type="search" name="keyword" class="form-control" placeholder="Search..." aria-label="Search">
     </form>
   </div>
 </div>
