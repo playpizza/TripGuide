@@ -11,6 +11,7 @@
       var joinUrl = "{% url 'account_signup' %}";
       var logoutUrl = "{% url 'account_logout' %}";
       var managerUrl = "{% url 'Manager:home'%}";
+      var adUrl = "{% url 'Add:add' ad.id %}";
     </script>
     <link href="{% static 'bs/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'base.css' %}" rel="stylesheet">
@@ -86,7 +87,7 @@
     <!-- add -->
     <div class="container position-fixed" style="top: 200px; right: 50px; width: 120px; height: 320px; ">
       {% if ad.mainphoto %}
-      <img src="{{ad.mainphoto.url}}" alt="ad" width="100%" class="img-thumbnail" onclick="location.href='{{ad.link}}'" style='cursor:pointer'>
+      <img src="{{ad.mainphoto.url}}" alt="ad" width="100%" class="img-thumbnail" onclick="location.href=adUrl" style='cursor:pointer'>
       {% else %}
       <p>광고</p>
       {% endif %}
