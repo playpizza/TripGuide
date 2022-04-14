@@ -27,15 +27,15 @@ class BoardListView(ListView):
         if search_keyword :
             if len(search_keyword) > 1 :
                 if search_type == 'all':
-                    search_board_list = board_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+                    search_board_list = board_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (nickname__icontains=search_keyword))
                 elif search_type == 'title_content':
                     search_board_list = board_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
                 elif search_type == 'title':
                     search_board_list = board_list.filter(title__icontains=search_keyword)    
                 elif search_type == 'content':
                     search_board_list = board_list.filter(content__icontains=search_keyword)    
-                elif search_type == 'writer':
-                    search_board_list = board_list.filter(writer__user_id__icontains=search_keyword)
+                elif search_type == 'nickname':
+                    search_board_list = board_list.filter(nickname__icontains=search_keyword)
 
                 return search_board_list
             else:

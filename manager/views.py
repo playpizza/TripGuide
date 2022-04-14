@@ -416,7 +416,7 @@ def m_board_manage(request):
         searchWord = context['searchWord']
         try:
             all_boards = Board.objects.filter(
-                Q(writer__name__icontains=searchWord) |
+                Q(nickname__icontains=searchWord) |
                 Q(title__icontains=searchWord)
             ).order_by('-registered_date')
         except ObjectDoesNotExist:
