@@ -22,14 +22,14 @@
       {% for content_data in all_contents %}
         <div class="col-md-4 col-sm-6 col-lg-3">
           <div class="card">
-            <img class="card-img-top" src="{{ content_data.firstimage }}" alt="Card image cap">
+            <img class="card-img-top" src="{{ content_data.firstimage }}" onerror="this.style.display='none'" alt='' />
             <div class="card-body text-center">
               <p class="card-title">{{ content_data.title }}</p>
               <p class="card-text">{{ content_data.addr1 }}</p>
               <a href="{% url 'Contents:detail' content_data.id %}">
                 <input
                 type="submit"
-                value="Learn More"
+                value="See More"
                 class="btn btn-danger btn-sm"
                 type="button"
             /></a>
