@@ -226,11 +226,8 @@ def board_comment_delete(request):
 
 
 def like_count(request):
-    count_like = Board_hits.objects.get()
     id = request.POST['board_id']
     board = Board.objects.get(id=id)
-
-    
 
     board.like_count += 1
     board.save()
