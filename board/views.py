@@ -4,6 +4,8 @@ import json
 from django.urls import reverse_lazy
 from .models import Board
 from .models import Comment
+from count.models import CountBoard
+from home.views import getAd
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 from django.contrib import messages
@@ -96,8 +98,11 @@ def board_write(request):
                 writer = user_id,
                 nickname = nickname,
             )
+        count = CountBoard.objects.get()
+        count.board_cnt += 1
 
         board.save()
+        count.save()
 
         return render(request, './writeOk.html', {'board': board})
 
@@ -171,6 +176,10 @@ def board_delete(request):
             os.remove(board.upload_files.path)
         board.delete()
 
+        count = CountBoard.objects.get()
+        count.board_cnt -= 1
+        count.save()
+
         return render(request, './b_deleteOK.html')
 
 def comment_write(request):
@@ -189,6 +198,10 @@ def comment_write(request):
                 nickname = nickname,
             )
         
+        count = CountBoard.objects.get()
+        count.comment_cnt += 1
+
+        count.save()
         comment.save()
 
         return render(request, './commentOk.html', {'board': board})
@@ -201,6 +214,11 @@ def board_comment_delete(request):
         comment = Comment.objects.get(id=c_id)
         board = Board.objects.get(id=b_id)
         comment.delete()
+
+        count = CountBoard.objects.get()
+        count.comment_cnt -= 1
+        
+        count.save()
 
         return render(request, './c_deleteOK.html', {'board': board})
 
