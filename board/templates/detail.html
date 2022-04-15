@@ -2,26 +2,35 @@
 
 {% block contents %}
 <div class="mb-3 mt-3 clearfix">
-    <span class="float-start me-2">제목: {{ board.title }}</span>
     <span class="float-end ms-4">작성일: {{ board.registered_date|date:"Y-m-d" }}</span>
     <span class="float-end ms-4">조회수: {{ board.hits }}</span>
     <span class="float-end">좋아요 수: {{ board.like_count }}</span>
-</div>
-{% if user.is_authenticated %}
-<form action="/board/like_count/" class="float-end" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="board_id" value="{{ board.id }}">
-    <input type="submit" class="btn bg-warning" style="padding:1px 3px; color: white;" value="좋아요" />
-</form>
+    <br>
+    {% if user.is_authenticated %}
+    <form action="/board/like_count/" class="float-end" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="board_id" value="{{ board.id }}">
+        <input type="submit" class="btn bg-warning" style="padding:1px 3px; color: white;" value="좋아요" />
+    </form>
 {% endif %}
-<br>
+</div>
 <section>
     <table class="table table-sm table-hover">
         <thead style="border-top: 1px solid #dee2e6;">
-            <div class="mb-3">
-                <label for="writer">작성자</label>
-                <div class="border bg-light rounded p-2" >{{ board.nickname }}</div>
-            </div>      
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <div class="writer">제목</div>
+                        <div class="border bg-light rounded p-2" >{{ board.title }}</div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <div class="writer">작성자</div>
+                        <div class="border bg-light rounded p-2" >{{ board.nickname }}</div>
+                    </div>
+                </div>   
+            </div>  
             <div class="mb-3 mt-3">
                 <label for="content">내용</label>
                 <div class="border bg-light rounded p-2" >{{ board.content }}<br><br>
@@ -33,7 +42,7 @@
                 </div>
             </div>
         </thead>
-        <tbody style="border-top: 1px solid #dee2e6;">
+        <tbody style="border-top: 1px solid;">
             <div class="mb-3">
                 {% for comment in comments %}
                 {% if comment.post_id == board.id %}
@@ -60,7 +69,7 @@
                 <form action="/board/comment/write/" method="POST">
                     {% csrf_token %}
                     <input type="text" name="content" placeholder="댓글을 입력하세요">
-                    <input type="submit" value="Write" />
+                    <input type="submit" class="bg-warning" style="color: white;" value="Write" />
                     <input type="hidden" name="board_id" value="{{ board.id }}">
                 </form>
                 {% endif %}
