@@ -34,7 +34,7 @@ class H_review(models.Model):
     # t_relation_review = models.ManyToManyField('T_review', through='Relation_ht', through_fields=('H_review', 'T_review'), verbose_name='관련후기', blank=True)
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='숙소후기등록시간')
     up_date = models.DateTimeField(auto_now_add=True, verbose_name='숙소후기최신화시간')
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='숙소후기작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='숙소후기작성자', null=True)
 
     class Meta:
         db_table = 'h_review'
@@ -53,7 +53,7 @@ class F_review(models.Model):
     # t_relation_review = models.ManyToManyField('T_review', through='Relation_ft', through_fields=('F_review', 'T_review'), verbose_name='관련후기', blank=True)
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='축제후기등록시간')
     up_date = models.DateTimeField(auto_now_add=True, verbose_name='축제후기최신화시간')
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='축제후기작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='축제후기작성자', null=True)
 
     class Meta:
         db_table = 'f_review'
@@ -71,7 +71,7 @@ class T_review(models.Model):
     # t_relation_review = models.ManyToManyField('self', verbose_name='관련여행후기', blank=True)
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='여행후기등록시간')
     up_date = models.DateTimeField(auto_now_add=True, verbose_name='여행후기최신화시간')
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='여행후기작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='여행후기작성자', null=True)
 
     class Meta:
         db_table = 't_review'
@@ -83,7 +83,7 @@ class T_review(models.Model):
 
 class R_comment(models.Model):
     # 후기글에 댓글
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기댓글작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기댓글작성자', null=True)
     review_comment = models.TextField(verbose_name='후기댓글')
     target = models.ForeignKey(R_review, on_delete=models.CASCADE, verbose_name='후기댓글')
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='댓글등록시간')
@@ -92,7 +92,7 @@ class R_comment(models.Model):
         return self.text[:20]
 
 class H_comment(models.Model):
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기댓글작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기댓글작성자', null=True)
     review_comment = models.TextField(verbose_name='후기댓글')
     target = models.ForeignKey(H_review, on_delete=models.CASCADE, verbose_name='후기댓글')
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='댓글등록시간')
@@ -101,7 +101,7 @@ class H_comment(models.Model):
         return self.text[:20]
 
 class F_comment(models.Model):
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기댓글작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기댓글작성자', null=True)
     review_comment = models.TextField(verbose_name='후기댓글')
     target = models.ForeignKey(F_review, on_delete=models.CASCADE, verbose_name='후기댓글')
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='댓글등록시간')
@@ -110,7 +110,7 @@ class F_comment(models.Model):
         return self.text[:20]
 
 class T_comment(models.Model):
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기댓글작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기댓글작성자', null=True)
     review_comment = models.TextField(verbose_name='후기댓글')
     target = models.ForeignKey(T_review, on_delete=models.CASCADE, verbose_name='후기댓글')
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='댓글등록시간')
@@ -120,7 +120,7 @@ class T_comment(models.Model):
 
 class R_reply(models.Model):
     # 대댓글
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기대댓글작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기대댓글작성자', null=True)
     review_reply = models.TextField(verbose_name='후기대댓글')
     target = models.ForeignKey(R_comment, on_delete=models.CASCADE, verbose_name='대상댓글')
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='대댓글등록시간')
@@ -130,7 +130,7 @@ class R_reply(models.Model):
 
 class H_reply(models.Model):
     # 대댓글
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기대댓글작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기대댓글작성자', null=True)
     review_reply = models.TextField(verbose_name='후기대댓글')
     target = models.ForeignKey(H_comment, on_delete=models.CASCADE, verbose_name='대상댓글')
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='대댓글등록시간')
@@ -140,7 +140,7 @@ class H_reply(models.Model):
 
 class F_reply(models.Model):
     # 대댓글
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기대댓글작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기대댓글작성자', null=True)
     review_reply = models.TextField(verbose_name='후기대댓글')
     target = models.ForeignKey(F_comment, on_delete=models.CASCADE, verbose_name='대상댓글')
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='대댓글등록시간')
@@ -150,7 +150,7 @@ class F_reply(models.Model):
 
 class T_reply(models.Model):
     # 대댓글
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기대댓글작성자')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='후기대댓글작성자', null=True)
     review_reply = models.TextField(verbose_name='후기대댓글')
     target = models.ForeignKey(T_comment, on_delete=models.CASCADE, verbose_name='대상댓글')
     reg_date = models.DateTimeField(auto_now_add=True, verbose_name='대댓글등록시간')
