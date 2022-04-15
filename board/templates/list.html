@@ -94,6 +94,12 @@
                 <button class="btn bg-warning" style="font-size:16px; color: white;" onclick="location.href='/board/write/'">글쓰기</button>
             </div>
         </div>
+        {% else %}
+        <div>
+            <div>
+                <button class="btn bg-warning" style="font-size:16px; color: white;" onclick="location.href='/board/write_ck/'">글쓰기</button>
+            </div>
+        </div>
         {% endif %}
 
         <div class="col-md-offset-6">

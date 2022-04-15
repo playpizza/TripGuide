@@ -233,6 +233,10 @@ def like_count(request):
 
     return redirect('Board:detail', id)
 
+def write_ck(request):
+
+    return render(request, './write_ck.html')
+
 def like_ck(request):
 
     return render(request, './like_ck.html')
