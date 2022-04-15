@@ -1,4 +1,5 @@
 from asyncio.windows_events import NULL
+from datetime import datetime
 import os
 import json
 from django.urls import reverse_lazy
@@ -100,7 +101,7 @@ def board_write(request):
                 writer = user_id,
                 nickname = nickname,
             )
-        count = CountBoard.objects.get()
+        count = CountBoard.objects.get(reg_date=datetime.today())
         count.board_cnt += 1
 
         board.save()
@@ -179,9 +180,7 @@ def board_delete(request):
             os.remove(board.upload_files.path)
         board.delete()
 
-        count = CountBoard.objects.get()
-        count.board_cnt -= 1
-        count.save()
+        
 
         return render(request, './b_deleteOK.html')
 
@@ -201,7 +200,7 @@ def comment_write(request):
                 nickname = nickname,
             )
         
-        count = CountBoard.objects.get()
+        count = CountBoard.objects.get(reg_date=datetime.today())
         count.comment_cnt += 1
 
         count.save()
@@ -218,10 +217,8 @@ def board_comment_delete(request):
         board = Board.objects.get(id=b_id)
         comment.delete()
 
-        count = CountBoard.objects.get()
-        count.comment_cnt -= 1
         
-        count.save()
+    
 
         return render(request, './c_deleteOK.html', {'board': board})
 
