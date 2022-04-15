@@ -39,7 +39,41 @@
     <div class="col-md-12 shadow-lg p-3 mb-5 mt-4 bg-white rounded">
       <h1 class="my-3">주소</h1>
       <p class="lead">{{ content.addr1 }}</p>
-      <p class="lead">{{ content.mapx }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 shadow-lg p-3 mb-5 mt-4 bg-white rounded">
+     <table id="demoJSON" style="padding: 10;" align="center"></table>
+     <script>
+      //  var api_key = "6%2B5mrhfOlLaSxBRdUTJHl8Y7e7yURzgyJWjob%2BXgC%2BJgdjZCYrHb%2Fro6Fv61BA6ngjv6lzwoq8XCh660UfLdOQ%3D%3D";
+       var areacode = "{{ content.areacode }}"; 
+       url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?serviceKey=6%2B5mrhfOlLaSxBRdUTJHl8Y7e7yURzgyJWjob%2BXgC%2BJgdjZCYrHb%2Fro6Fv61BA6ngjv6lzwoq8XCh660UfLdOQ%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&areaCode=" + areacode + "&eventStartDate=20170901" + "&_type=json";
+
+       $.ajax({
+              url: url,
+              type: "GET",
+              cache: false,
+              success: function(data, status){
+                if(status == "success") parseJSON(data);
+              }
+            });
+
+      
+
+        function parseJSON(jsonObj){
+          var row = jsonObj.response.body.items.item;
+          var i;
+        
+          var table = "<tr><th>행사정보</th><th>행사사진</th></tr>";
+          for (i = 0; i < row.length; i++) {
+            table += "<tr>"; 
+            table += "<td>" + row[i].title  + "</td>";
+            table += "<td><img src=\"" + row[i].firstimage + "\"/ width=500, height=250></td>";
+            table += "</tr>"; 
+          }
+          $("#demoJSON").html(table);
+        }
+     </script>
     </div>
   </div>
 </div>
