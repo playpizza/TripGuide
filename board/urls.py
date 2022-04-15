@@ -14,6 +14,7 @@ urlpatterns = [
     path('comment/write/', views.comment_write, name='comment_write'),
     path('comment/delete/', views.board_comment_delete, name='comment_delete'),
     path('like_count/', views.like_count, name="like_count"),
+    path('like_ck/', views.like_ck, name="like_ck"),
 ]
 
 urlpatterns += static(

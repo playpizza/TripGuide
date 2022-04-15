@@ -235,3 +235,7 @@ def like_count(request):
     board.save()
 
     return redirect('Board:detail', id)
+
+def like_ck(request):
+
+    return render(request, './like_ck.html')
