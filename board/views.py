@@ -116,6 +116,7 @@ def board_detail(request, id):
         board = Board.objects.get(id=id)
         comment_list = Comment.objects.order_by('-id')
 
+        board.hits += 1
         board.save()
 
         context = {
